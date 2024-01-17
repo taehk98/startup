@@ -1,18 +1,14 @@
 # startup
 notes.md -> https://github.com/taehk98/startup/blob/main/notes.md
-# Voter
+# Soccer Clue Attendance checker
 
-This application serves as an example for the information you must provide in your Start Up `README.md` file for each phase of your development. You only need to fill in the section for the deliverable when you submit that deliverable in Canvas. This allows the TA to know what should be graded.
-
-The specification deliverable section defines what your application will do. The rest of the deliverable sections reference the rubric for the deliverable and tell where the functionality is in your application, or documents that you did not satisfy that part of the rubric.
+This application allows Soccer clubs to take their members' attendance every week. The administers of the clubs can start votings and end them. People need their certain clubs' codes to sign up to their clubs.
 
 ## Specification Deliverable
 
-➡️ The following is an example of the required information for the `Startup Specification` deliverable
-
 ### Elevator pitch
 
-Have you ever endlessly debated with your friends about where to meet for lunch, or had your team bog down about an important decision that needs to be made. The Voting application makes it so a group of people can pull out their phones, clearly see the options, and pick their top three choices. As each user makes their choices the results are automatically tallied and displayed in realtime to all the other group members. Once everyone locks in their choices the group can move forward with confidence that the best option has been selected.
+Our soccer club attendance check application simplifies the process of tracking and managing player attendance. Easily monitor who's present and who's not, streamline communication with team members, and ensure everyone is on the same page. Our application enhances the efficiency of managing soccer club attendance. Join us in revolutionizing the way we take attendance in soccer clubs!
 
 ### Design
 
