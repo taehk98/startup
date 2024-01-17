@@ -12,7 +12,7 @@ Our soccer club attendance check application simplifies the process of tracking 
 
 ### Design
 
-![Mock](voterMockUI.jpg)
+![Mock](KakaoTalk_20240116_223125682.jpg)
 
 Here is a sequence diagram that shows how to people would interact with the backend to vote.
 
