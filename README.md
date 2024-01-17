@@ -22,23 +22,23 @@ Our soccer club attendance check application simplifies the process of tracking 
 - Tracking of People Who Voted for 'Will Attend' but Did Not Actually Attend
 - Ability to Join Specific Clubs.
 - Display of Name Lists of Attendees and Non-attendees in Real-time
-- Ability for a User to Create and End Attendance Voting and Check Actual Attendance
+- Ability for a User to Create and End Attendance poll and Check Actual Attendance
 - Persistent Storage of Club Members' Attendance
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Uses correct HTML structure for application. Two HTML pages. One for login and one for voting. Hyperlinks to choice artifact.
-- **CSS** - Application styling that looks good on different screen sizes, uses good whitespace, color choice and contrast.
-- **JavaScript** - Provides login, choice display, applying votes, display other users votes, backend endpoint calls.
+- **HTML** - Uses correct HTML structure for application. Three HTML pages. One for login, one for attendance poll, and one for attendance summary. Hyperlinks to choice artifact.
+- **CSS** - Styling for the application that presents an appealing visual appearance across various screen sizes, incorporates effective use of whitespace, and employs well-thought-out color choices and contrasts.
+- **JavaScript** - Provides login, attendance polls display, applying votes, display other users votes on two lists, backend endpoint calls.
 - **Service** - Backend service with endpoints for:
   - login
   - retrieving choices
   - submitting votes
   - retrieving vote status
-- **DB/Login** - Store users, choices, and votes in database. Register and login users. Credentials securely stored in database. Can't vote unless authenticated.
-- **WebSocket** - As each user votes, their votes are broadcast to all other users.
+- **DB/Login** - Store users, choices, and polls in database. Register and login users. Credentials securely stored in database. Can't create or end attendance polls unless authenticated.
+- **WebSocket** - As each user votes, their names on the 'Will Attend' list the 'Will Be Absent' list are broadcast to all other users.
 - **React** - Application ported to use the React web framework.
 
 ## HTML deliverable
