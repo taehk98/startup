@@ -14,20 +14,16 @@ Our soccer club attendance check application simplifies the process of tracking 
 
 ![Mock](KakaoTalk_20240116_223125682.jpg)
 
-Here is a sequence diagram that shows how to people would interact with the backend to vote.
-
-![Voting sequence diagram](votingSequenceDiagram.png)
-
 ### Key features
 
-- Secure login over HTTPS
-- Ability to select the question to decide
-- Display of choices
-- Ability to select, and change, top three choices
-- Totals from all users displayed in realtime
-- Ability for a user to lock in their top three
-- Results are persistently stored
-- Ability for admin to create and delete questions
+- Secure Login over HTTPS
+- Ability to Choose Between the 'Will Attend' Button and the 'Will Be Absent' Button
+- Display of Attendance Summary of Members
+- Tracking of People Who Voted for 'Will Attend' but Did Not Actually Attend
+- Ability to Join Specific Clubs.
+- Display of Name Lists of Attendees and Non-attendees in Real-time
+- Ability for a User to Create and End Attendance Voting and Check Actual Attendance
+- Persistent Storage of Club Members' Attendance
 
 ### Technologies
 
