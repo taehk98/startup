@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageYourClub</title>
+    <link rel="icon" href="ball-1684282_640.png">
+    <!-- <style>
+        /* 스타일링을 위한 CSS 코드 */
+        .two-column-list {
+          display: flex;
+          justify-content: space-between;
+          list-style: none;
+          padding: 0;
+        }
+    
+        .column {
+          width: 48%; /* 각 열의 너비를 조절할 수 있습니다. */
+        }
+      </style> -->
+</head>
+<body>
+    <header>
+        <h1 >MYC
+            <img src="ball-1684282_640.png" alt="Soccer Ball" width="30" height="30">
+        </h1>
+        <h4>Manage Your Club</h4>
+        <nav>
+            <menu>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="attendance.html">Attendance</a></li>
+              <li><a href="attendanceSummary.html">Report</a></li>
+              <li><a href="about.html">About</a></li>
+            </menu>
+        </nav>
+        <hr />
+    </header>
+    <main>
+        <div class="users">
+            User:
+            <span class="user-name">Mystery user</span>
+            &nbsp;
+            Club Name:
+            <span class="user-club">Mystery Club</span>
+        </div>
+
+        <ul class="two-column-list">
+            <!-- First Column -->
+            <li class="column">
+                <label for="Present">Present</label>
+                <input type="checkbox" id="Present" name="Present">
+                <h3>List of Expected Attendees</h3>
+                <ul>
+                    <li class="user-name">Item 1</li>
+                    <li class="user-name">Item 2</li>
+                </ul>
+            </li>
+            
+            <br />
+            <!-- Second Column -->
+            <li class="column">
+                <label for="notPresent">Not Present</label>
+                <input type="checkbox" id="notPresent" name="notPresent">
+                <h3>List of Expected Non-Attendees</h3>
+                <ul>
+                    <li class="user-name">Item A</li>
+                    <li class="user-name">Item B</li>
+                </ul>
+            </li>
+          </ul>
+
+          <br />
+
+          <div>
+            <button>Save Actual Attendance Records</button>
+            <button>End Voting</button>
+          </div>
+    </main>
+    <footer>
+        <hr />
+        <span class="text-reset">Author Name(s)</span>
+        <br />
+        <a href="https://github.com/taehk98/startup.git">GitHub</a>
+      </footer>
+</body>
+</html>
