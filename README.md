@@ -45,10 +45,10 @@ I am going to use the required technologies in the following ways.
 
 
 
-- **HTML pages** - 
-- **Links** - 
-- **Text** - 
-- **Images** - 
+- **HTML pages** - Four HTML page that represent the ability to login, vote, report.
+- **Links** - The login page automatically links to the attendance page. Every page can be reached from each other. 
+- **Text** - The two reports on the report.html page are represented by a textual description.
+- **Images** - I added a soccer pitch picture on the about page and a sccoer ball drawing next to the title of the page.
 - **DB/Login** - 
 - **WebSocket** - 
 
