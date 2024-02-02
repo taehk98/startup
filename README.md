@@ -49,9 +49,8 @@ I am going to use the required technologies in the following ways.
 - **Links** - The login page automatically links to the attendance page. Every page can be reached from each other. 
 - **Text** - The two reports on the report.html page are represented by a textual description.
 - **Images** - I added a soccer pitch picture on the about page and a sccoer ball drawing next to the title of the page.
-- **DB/Login** - 
-- **WebSocket** - 
-
+- **DB/Login** - Stores Club codes, members, votes in database. Can't join teams unless people have specific code for their teams.
+- **WebSocket** - When individuals check the checkboxes, their names will be added to the list based on their selections. People will be able to see other people's realtime choises.
 ## CSS deliverable
 
 
