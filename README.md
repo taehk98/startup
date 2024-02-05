@@ -51,6 +51,7 @@ I am going to use the required technologies in the following ways.
 - **Images** - I added a soccer pitch picture on the about page and a sccoer ball drawing next to the title of the page.
 - **DB/Login** - Stores Club codes, members, votes in database. Can't join teams unless people have specific code for their teams.
 - **WebSocket** - When individuals check the checkboxes, their names will be added to the list based on their selections. People will be able to see other people's realtime choises.
+- **Web Service** - On the attendance page, the place where they are going to play at is shown by using map API.
 ## CSS deliverable
 
 
