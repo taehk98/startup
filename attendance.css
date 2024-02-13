@@ -1,0 +1,102 @@
+ul .nav-item {
+    padding: 0 0.3em;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.form-group{
+    width:350px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 10px;
+}
+
+.navbar-nav {
+    flex: 1;
+    display: flex;
+    /*  overwrite Bootstrap so the menu does not wrap */
+    flex-direction: row !important;
+    list-style: none;
+    color: rgb(6, 32, 119);
+  }
+
+/* .two-column-list {
+    display: block;
+    text-align: center;
+} */
+
+.two-column-list {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.navbar-text {
+    padding-right: 3vh;
+    font-family:'Times New Roman', Times, serif;
+    font-style: italic;
+    color: black !important;
+}
+
+.column {
+    
+    margin-left:auto;
+    margin-right:auto;
+    border: 1px solid #ccc;
+}
+
+.users {
+    display: flex;
+    justify-content:flex-start;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    
+}
+
+#column {
+    text-align: center;
+}
+
+#column input[type="checkbox"] {
+    display: inline-block; /* 체크박스를 텍스트의 왼쪽에 정렬 */
+    vertical-align: middle; /* 체크박스를 텍스트와 수직 정렬 */
+    margin-right: 5px; /* 체크박스와 텍스트 사이의 간격 조정 */
+}
+
+main {
+    padding-top: 5vh;
+}
+
+
+.saveEnd {
+    display: block;
+    text-align: center;
+}
+
+
+.btn.btn-primary{
+    border:1px solid #bedaee;;
+    background-color: #e3f2fd;
+    width: 300px;
+    font-size: small;
+    margin-left:auto;
+    margin-right:auto;
+    color: rgb(6, 32, 119);
+}
+
+footer{
+    margin:0 auto;
+    text-align:center;
+    bottom:5px;
+    color:gray;
+    max-width: 100%;
+    height: auto;
+
+}

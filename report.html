@@ -5,35 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ManageYourClub</title>
     <link rel="icon" href="ball-1684282_640.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
+      rel="stylesheet" 
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
+      crossorigin="anonymous" 
+    />
+    <link rel="stylesheet" href="report.css" />
 </head>
 <body>
     <header>
-        <h1 >MYC
-            <img src="ball-1684282_640.png" alt="Soccer Ball" width="30" height="30">
-        </h1>
-        <h4>Manage Your Club</h4>
-        <nav>
-            <menu>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="attendance.html">Attendance</a></li>
-              <li><a href="report.html">Report</a></li>
-              <li><a href="about.html">About</a></li>
-            </menu>
-        </nav>
-        <hr />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+            <nav style="background-color: #e3f2fd;" class="container-fluid navbar border-top border-body ps-2" >
+                <a class="navbar-brand">
+                    MYC
+                </a>
+                <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link" href="index.html">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="attendance.html">Attendance</a></li>
+                  <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                  <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                </ul>
+                <div class="navbar-text">
+                    User: &nbsp;
+                    <span class="user-name">Mystery user</span>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    Club Name: &nbsp;
+                    <span class="user-club">Mystery Club</span>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    Club Code:  &nbsp;
+                    <span class="user-club">your Code</span>
+                </div>
+            </nav>
     </header>
     <main>
-        <div class="users">
-            User:
-            <span class="user-name">Mystery user</span>
-            &nbsp;
-            Club Name:
-            <span class="user-club">Mystery Club</span>
-            &nbsp;
-            Club Code:
-            <span class="user-club">your Code</span>
-        </div>
-        <hr />
         <div id="fakeAttendees">
             People who voted for present but did not actually attended
             <table>

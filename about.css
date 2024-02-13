@@ -1,0 +1,50 @@
+ul .nav-item {
+    padding: 0 0.3em;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.form-group{
+    width:350px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 10px;
+}
+
+.navbar-nav {
+    flex: 1;
+    display: flex;
+    /*  overwrite Bootstrap so the menu does not wrap */
+    flex-direction: row !important;
+    list-style: none;
+    color: rgb(6, 32, 119);
+  }
+
+.navbar-text {
+    padding-right: 3vh;
+    font-family:'Times New Roman', Times, serif;
+    font-style: italic;
+    color: black !important;
+}
+#sccoerpitch {
+    padding-top: 3vh;
+    display: flex;
+    justify-content: center;
+}
+
+p {
+    padding-top: 3vh;
+    text-align: center;
+}
+
+footer{
+    margin:0 auto;
+    text-align:center;
+    bottom:5px;
+    color:gray;
+    max-width: 100%;
+    height: auto;
+
+}

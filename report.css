@@ -1,0 +1,54 @@
+ul .nav-item {
+    padding: 0 0.3em;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.form-group{
+    width:350px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 10px;
+}
+
+.navbar-nav {
+    flex: 1;
+    display: flex;
+    /*  overwrite Bootstrap so the menu does not wrap */
+    flex-direction: row !important;
+    list-style: none;
+    color: rgb(6, 32, 119);
+  }
+
+.navbar-text {
+    padding-right: 3vh;
+    font-family:'Times New Roman', Times, serif;
+    font-style: italic;
+    color: black !important;
+}
+
+/* main {
+    padding-top: 5vh;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30vh;
+    padding-right: 30vh;
+} */
+
+main {
+    display: grid;
+    padding: 3vh
+}
+
+table {
+    border-collapse: collapse; /* 테이블 셀의 테두리를 합칩니다. */
+  }
+  
+  table, th, td {
+    border: 1px solid black; /* 테두리에 선을 추가합니다. */
+    padding-right: 5vh;
+    color: black;
+    background-color: #e3f2fd;
+  }
