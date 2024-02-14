@@ -61,7 +61,7 @@ I am going to use the required technologies in the following ways.
 - **Responsive to window resizing** - I used flexbox and dev tools to make sure my application outline works on both mobile and desktop.
 - **Application elements** - Used good colors and whitespace. Tried to make it clean and neat.
 - **Application text content** - Tried to use consistent fonts.
-- **Application images** - 
+- **Application images** - Made a logo for the application and use it on the login page. Its size reflects on the size of the screen.
 
 ## JavaScript deliverable
 
