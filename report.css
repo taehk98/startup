@@ -28,6 +28,20 @@ ul .nav-item {
     color: black !important;
 }
 
+#fakeAttendeesText {
+    font-weight: bold;
+    padding-bottom: 1vh;
+}
+
+#attdRateText {
+    font-weight: bold;
+    padding-bottom: 1vh;
+}
+
+#fakeAttendees, #attdRate {
+    text-align: center;
+}
+
 /* main {
     padding-top: 5vh;
     display: flex;
@@ -43,11 +57,21 @@ main {
 
 table {
     border-collapse: collapse; /* 테이블 셀의 테두리를 합칩니다. */
-  }
+    margin: 0 auto; 
+}
   
-  table, th, td {
+table, th, td {
     border: 1px solid black; /* 테두리에 선을 추가합니다. */
     padding-right: 5vh;
     color: black;
     background-color: #e3f2fd;
-  }
+}
+
+footer{
+    margin:0 auto;
+    text-align:center;
+    bottom:5px;
+    color:gray;
+    max-width: 100%;
+    height: auto;
+}

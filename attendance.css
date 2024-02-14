@@ -30,8 +30,8 @@ ul .nav-item {
 
 .two-column-list {
     display: flex;
-    justify-content: space-evenly;
-
+    flex-direction: row;
+    justify-content: center;
 }
 
 .navbar-text {
@@ -39,13 +39,12 @@ ul .nav-item {
     font-size: 2vh;
     color: black !important;
 }
-/* 모바일 크기일때는 크기를 줄이던지 해야할듯 아니면 중앙 정렬이나 */
+/* 모바일 크기일때는 크기를 줄이던지 해야할듯 아니면 중앙 정 */
 
-.column {
-    
-    margin-left:auto;
-    margin-right:auto;
-    border: 1px solid #ccc;
+#column {
+    padding: 0 15px;
+    padding-bottom: 10px;
+    text-align: center;
 }
 
 .users {
@@ -57,18 +56,8 @@ label {
     font-weight: bold;
     display: block;
     text-align: center;
-    
 }
 
-#column {
-    text-align: center;
-}
-
-#column input[type="checkbox"] {
-    display: inline-block; /* 체크박스를 텍스트의 왼쪽에 정렬 */
-    vertical-align: middle; /* 체크박스를 텍스트와 수직 정렬 */
-    margin-right: 5px; /* 체크박스와 텍스트 사이의 간격 조정 */
-}
 
 main {
     padding-top: 5vh;
