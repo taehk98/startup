@@ -24,8 +24,7 @@ ul .nav-item {
 
 .navbar-text {
     padding-right: 3vh;
-    font-family:'Times New Roman', Times, serif;
-    font-style: italic;
+    font-size: 2vh;
     color: black !important;
 }
 
