@@ -56,7 +56,7 @@ I am going to use the required technologies in the following ways.
 
 
 
-- **Header, footer, and main content body** - Tried to made them concise. On the homepage they are at center so that people can feel like it is neat.
+- **Header, footer, and main content body** - Tried to made them concise. On the homepage they are at center so that people can feel like it is neat. A placeholder for webservice still exists.
 - **Navigation elements** - I used one of the navigations on bootstrap and modified it.
 - **Responsive to window resizing** - I used flexbox and dev tools to make sure my application outline works on both mobile and desktop.
 - **Application elements** - Used good colors and whitespace. Tried to make it clean and neat.
