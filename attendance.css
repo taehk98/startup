@@ -22,6 +22,7 @@ ul .nav-item {
     color: rgb(6, 32, 119);
   }
 
+
 /* .two-column-list {
     display: block;
     text-align: center;
@@ -38,6 +39,7 @@ ul .nav-item {
     font-size: 2vh;
     color: black !important;
 }
+/* 모바일 크기일때는 크기를 줄이던지 해야할듯 아니면 중앙 정렬이나 */
 
 .column {
     
