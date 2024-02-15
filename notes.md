@@ -9,3 +9,5 @@ Used 53 on AWS to rent a domain name and used Caddy to secure my website with ht
 Created index.html, attendance.html, report.html, and about.html files. (2/1/2024)
 
 Not sure if I need one more html page just for managers. I think I don't need one for now. (2/1/2024)
+
+Created Css files for the four html pages. (2/14/2024)
