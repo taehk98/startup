@@ -1,5 +1,6 @@
-function login() {
+function loginUser() {
     const nameEl = document.querySelector("#name");
     localStorage.setItem("userName", nameEl.value);
+
     window.location.href = "attendance.html";
-  }
+}
