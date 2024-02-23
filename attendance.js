@@ -14,6 +14,12 @@ class List {
 
         const absentCheckbox = document.getElementById('notPresent');
         absentCheckbox.addEventListener('click', this.handleAbsentCheck.bind(this));
+
+        const saveActualButton = document.getElementById('actualRecordBtn');
+        saveActualButton.addEventListener('click', this.saveActualRecord.bind(this))
+
+        const saveVotingButton = document.getElementById('votingBtn');
+        saveVotingButton.addEventListener('click', this.saveVoting.bind(this))
     }
 
     handlePresentCheck() {
@@ -47,22 +53,42 @@ class List {
     getUserID() {
         return localStorage.getItem('userID') ?? 'Mystery UserID';
     }
-    
+
+    saveActualRecord() {
+        let checkboxElements = document.querySelectorAll("input");
+
+        checkboxElements.forEach(function(element){
+            if (element.disabled) {
+                element.disabled = false;
+            }
+        });
+
+        const clubMemberObjs = this.getClubMemberObjs();
+        
+    }
+
+    saveVoting() {
+        let checkboxElements = document.querySelectorAll("input");
+
+        checkboxElements.forEach(function(element){
+            if (!element.disabled) {
+                element.disabled = true;
+            }
+        });
+    }
 
 
     checkedAttend() {
-        this.saveAttend(true);
+        this.saveWillAttend(true);
         this.loadLists();
-        //이거 바로 윗줄 되는지 확실치 않음
-
     }
 
     checkedAbsent() {
-        this.saveAttend(false);
+        this.saveWillAttend(false);
         this.loadLists();
     }
 
-    saveAttend(willAttend) {
+    saveWillAttend(willAttend) {
         const userName = this.getUserName();
         const clubName = this.getClubName();
         let attendances = [];
@@ -71,25 +97,25 @@ class List {
         if(attendanceText){
             attendances = JSON.parse(attendanceText);
         }
-        attendances = this.updateAttendances(userName, clubName, willAttend, attendances);
+        attendances = this.updateUserWillAttend(userName, clubName, willAttend, attendances);
 
         localStorage.setItem('attendances' , JSON.stringify(attendances));
     }
 
 
     // 아마 현재 참석 횟수 , 불참 횟수, 참석하기로하고 불참 횟수 추가해야함
-    updateAttendances(userName, clubName, Attend, attendances) {
+    updateUserWillAttend(userName, clubName, Attend, attendances) {
 
-        const newAttendance = {name: userName , club: clubName , willAttend: Attend};
-        console.log(newAttendance);
+        let newAttendance = {};
         const updatedAttendances = attendances.map(attendance => {
             if (attendance.name === userName && attendance.club === clubName) {
+                newAttendance = { name: userName, club: clubName, numOfAttend: attendance.numOfAttend, 
+                    numOfAbsence: attendance.numOfAbsence, numOfFake: attendance.numOfFake, willAttend: attend};
                 return newAttendance; // 해당하는 객체를 업데이트한 후 반환
             } else {
                 return attendance; // 해당하지 않는 객체는 그대로 반환
             }
         });
-        console.log(updatedAttendances);
         return updatedAttendances; // 새로운 배열 반환
 
     }
