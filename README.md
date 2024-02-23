@@ -1,5 +1,6 @@
 # startup
 notes.md -> https://github.com/taehk98/startup/blob/main/notes.md
+current URL => https://startup.manageyourclub.click
 # Soccer Clue Attendance checker
 
 This application allows Soccer clubs to take their members' attendance every week. The administers of the clubs can start votings and end them. People need their certain clubs' codes to sign up to their clubs.
