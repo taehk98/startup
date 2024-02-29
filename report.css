@@ -74,11 +74,14 @@ table {
     margin: 0 auto; 
 }
   
-table, th, td {
+th, tr {
     border: 1px solid black; /* 테두리에 선을 추가합니다. */
-    padding-right: 5vh;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     color: black;
+    text-align: center;
     background-color: #e3f2fd;
+    
 }
 
 footer{

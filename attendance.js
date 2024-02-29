@@ -85,12 +85,12 @@ class Attandance {
 
 
     checkedAttend() {
-        this.saveWillAttend(true);
+        this.saveAttend(true);
         this.loadLists();
     }
 
     checkedAbsent() {
-        this.saveWillAttend(false);
+        this.saveAttend(false);
         this.loadLists();
     }
 
@@ -214,11 +214,14 @@ class Attandance {
             } else if (!updatedMember.actualAtt) {
                 updatedMember.notAttNum = (updatedMember.notAttNum || 0) + 1;
             }
+            updatedMember.willAttend = null;
+            updatedMember.actualAtt = null;
     
             // 업데이트된 객체 반환
             return updatedMember;
         });
         localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
+        this.loadLists();
     }
 }
 

@@ -40,54 +40,62 @@
             <div id="fakeAttendeesText">
                 People who voted for present but did not actually attended
             </div>
-            <table id="fakeAttTb">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Number of Times</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Taehoon</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>태훈</td>
-                        <td>4</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div style="overflow-x:auto;">
+                <table id="fakeAttTb">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Number of Times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Taehoon</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>태훈</td>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
         <hr />
         <div id="attdRate">
             <div id="attdRateText">
                 Attendance rate for each member
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Rate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Taehoon</td>
-                        <td>25 %</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>태훈</td>
-                        <td>40 %</td>
-                    </tr>
-                </tbody>    
-            </table>
+            <div style="overflow-x:auto;">
+                <table id = "attRateTb">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Attend/Total</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Taehoon</td>
+                            <td>25 %</td>
+                            <th>1/4</th>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>태훈</td>
+                            <td>1/4</td>
+                        </tr>
+                    </tbody>    
+                </table>
+            </div>
+                
         </div>
     </main>
     <footer>
@@ -96,6 +104,6 @@
         <br />
         <a href="https://github.com/taehk98/startup.git">GitHub</a>
     </footer>
-    <script src="attendance.js"></script>
+    <script src="report.js"></script>
 </body>
 </html>
