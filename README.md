@@ -68,9 +68,9 @@ I am going to use the required technologies in the following ways.
 
 
 
-- **login** - 
-- **database** - 
-- **WebSocket** - 
+- **login** - When you press the login or sign up button it takes you to the attendance page. When you sign up, it checks if there is a club name you provide and create one if there is not. 
+- **database** - It currently stores users' clubID, indicating whether the user plans to attend and has actually attended, along with the number of attendances, the number of absences, and the number of "fake" attends in local storage.
+- **WebSocket** - When members of your club make changes for attendance vote, it will be reflected by websocket and saveAttend method I created in this part.
 - **application logic** - 
 
 ## Service deliverable
