@@ -31,10 +31,10 @@ ul .nav-item {
 /* 커스텀 스크롤바 스타일 */
 .table-container::-webkit-scrollbar {
     width: 8px; /* 스크롤바 너비 */
-    background-color: transparent; /* 배경색을 투명하게 설정하여 테이블과 겹치지 않게 합니다. */
+    background-color: transparent; 
 }
 .table-container::-webkit-scrollbar-thumb {
-    background-color: #e3f2fd; /* 스크롤바 색상 */
+    background-color: #e3f2fd;
     border-radius: 10px; /* 스크롤바 모양 */
 }
 .table-container::-webkit-scrollbar-thumb:hover {
