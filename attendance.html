@@ -31,10 +31,7 @@
                 </ul>
                 <div class="navbar-text">
                     User: <span class="user-name"></span>
-                </div>
-                
-                <div class="navbar-text">
-                    Club Name: <span class="user-club">Mystery Club</span>
+                    Club Name: <span class="club-name">Mystery Club</span>
                 </div>
             </nav>
     </header>
@@ -42,7 +39,7 @@
         <div class="two-column-list">
             <!-- First Column -->
             <div id="column">
-                <label for="Present">Will Present</label>
+                <label id="Present-text">Will Present</label>
                 <input type="checkbox" id="Present" name="Present">
                 <br/>
                 <ol id="attendList"class="list-group list-group-numbered">
@@ -54,7 +51,7 @@
             <br />
             <!-- Second Column -->
             <div id="column">
-                <label for="notPresent">Will Not Present</label>
+                <label id="NotPresent-text">Will Not Present</label>
                 <input type="checkbox" id="notPresent" name="notPresent">
                 <br/>
                 <ol id="absentList"class="list-group list-group-numbered">
@@ -65,9 +62,9 @@
         </div>
 
         <br />
-        <div class="saveEnd">
-            <button type="button" class="btn btn-primary">Save Actual Attendance Records</button>
-            <button type="button" class="btn btn-primary">End Voting</button>
+        <div class="buttons">
+            <button type="button" class="btn btn-primary" id="SaveActualButton">Save Actual Attendance Records</button>
+            <button type="button" class="btn btn-primary" id="endButton">End Voting</button>
         </div>
 
           <br />

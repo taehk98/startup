@@ -1,12 +1,18 @@
-class List {
+class Attandance {
     currAttendList;
     currAbsentList;
+    endVotingButton; 
+    saveActualButton; 
+    saveActual;
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
         userNameEl.textContent = this.getUserName();
+        const clubNameEl = document.querySelector('.club-name');
+        clubNameEl.textContent = this.getClubName().toUpperCase();
         this.currAttendList = [];
         this.currAbsentList = [];
+        this.saveActual = false;
         this.loadLists();
 
         const presentCheckbox = document.getElementById('Present');
@@ -14,6 +20,12 @@ class List {
 
         const absentCheckbox = document.getElementById('notPresent');
         absentCheckbox.addEventListener('click', this.handleAbsentCheck.bind(this));
+
+        this.endVotingButton = document.getElementById('endButton');
+        this.endVotingButton.addEventListener('click', this.endVoting.bind(this));
+
+        this.saveActualButton = document.getElementById('SaveActualButton');
+        this.saveActualButton.addEventListener('click', this.saveActualVoting.bind(this));
     }
 
     handlePresentCheck() {
@@ -53,8 +65,6 @@ class List {
     checkedAttend() {
         this.saveAttend(true);
         this.loadLists();
-        //이거 바로 윗줄 되는지 확실치 않음
-
     }
 
     checkedAbsent() {
@@ -62,36 +72,39 @@ class List {
         this.loadLists();
     }
 
-    saveAttend(willAttend) {
+    saveAttend(att) {
         const userName = this.getUserName();
         const clubName = this.getClubName();
         let attendances = [];
         const attendanceText = localStorage.getItem('attendances');
-
+        
         if(attendanceText){
             attendances = JSON.parse(attendanceText);
         }
-        attendances = this.updateAttendances(userName, clubName, willAttend, attendances);
+        let currObj = attendances.filter(obj => obj.name === userName)[0];
+        attendances = this.updateAttendances(userName, clubName, att, currObj, attendances);
 
         localStorage.setItem('attendances' , JSON.stringify(attendances));
     }
 
 
     // 아마 현재 참석 횟수 , 불참 횟수, 참석하기로하고 불참 횟수 추가해야함
-    updateAttendances(userName, clubName, Attend, attendances) {
-
-        const newAttendance = {name: userName , club: clubName , willAttend: Attend};
-        console.log(newAttendance);
+    updateAttendances(userName, clubName, att,  currObj , attendances) {
+        let newAttendance;
+        if(this.saveActual){
+            newAttendance = {name: userName , club: clubName , willAttend: currObj.willAttend, actualAtt: att, attNum: currObj.attNum, notAttNum: currObj.notAttNum, fakeAttNum: currObj.fakeAttNum};
+        }else{
+            newAttendance = {name: userName , club: clubName , willAttend: att, actualAtt: currObj.actualAtt, attNum: currObj.attNum, notAttNum: currObj.notAttNum, fakeAttNum: currObj.fakeAttNum};
+        }
         const updatedAttendances = attendances.map(attendance => {
             if (attendance.name === userName && attendance.club === clubName) {
-                return newAttendance; // 해당하는 객체를 업데이트한 후 반환
+                return newAttendance; 
             } else {
-                return attendance; // 해당하지 않는 객체는 그대로 반환
+                return attendance; 
             }
         });
         console.log(updatedAttendances);
         return updatedAttendances; // 새로운 배열 반환
-
     }
 
     getClubMemberObjs() {
@@ -106,8 +119,6 @@ class List {
         if(club !== 'Mystery Club') {
             clubMemberObjs = attendances.filter(obj => obj.club === club);
         }
-        console.log(club);
-        console.log(clubMemberObjs);
         return clubMemberObjs;
     }
 
@@ -146,6 +157,50 @@ class List {
             });
         }
     }
+
+    endVoting () {
+        this.saveActual = true;
+        const PresentTxtEl = document.getElementById("Present-text");
+        PresentTxtEl.textContent = "Was Present";
+        const NotPresentTxtEl = document.getElementById("NotPresent-text");
+        NotPresentTxtEl.textContent = "Was Not Present";
+        this.endVotingButton.disabled = true;
+        this.saveActualButton.disabled = false;
+    }
+
+    saveActualVoting() {
+        this.saveActual = false;
+        const PresentTxtEl = document.getElementById("Present-text");
+        PresentTxtEl.textContent = "Will Present";
+
+        const NotPresentTxtEl = document.getElementById("NotPresent-text");
+        NotPresentTxtEl.textContent = "Will Not Present";
+        this.endVotingButton.disabled = false;
+        this.saveActualButton.disabled = true;
+
+        let clubMemberObjs = this.getClubMemberObjs() 
+        
+        const updatedClubMemberObjs = clubMemberObjs.map(member => {
+            // 기존 객체를 복제하여 업데이트
+            const updatedMember = { ...member };
+    
+            // 속성 업데이트
+            if (updatedMember.willAttend && !updatedMember.actualAtt) {
+                updatedMember.fakeAttNum = (updatedMember.fakeAttNum || 0) + 1;
+                updatedMember.notAttNum = (updatedMember.notAttNum || 0) + 1;
+            } else if (updatedMember.actualAtt) {
+                updatedMember.attNum = (updatedMember.attNum || 0) + 1;
+            } else if (!updatedMember.actualAtt) {
+                updatedMember.notAttNum = (updatedMember.notAttNum || 0) + 1;
+            }
+    
+            // 업데이트된 객체 반환
+            return updatedMember;
+        });
+        localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
+    }
 }
 
-const list = new List();
+const att = new Attandance();
+
+

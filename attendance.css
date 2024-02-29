@@ -44,11 +44,16 @@ ul .nav-item {
 }
 
 .navbar-text {
-    padding-right: 3vh;
-    font-size: 2vh;
+    margin: 0 auto;
+    padding-right: 1em;
+    font-size: 1.5vh;
     color: black !important;
 }
 /* 모바일 크기일때는 크기를 줄이던지 해야할듯 아니면 중앙 정 */
+
+.user-name {
+    padding-right: 1em;
+}
 
 #column {
     padding: 0 15px;
@@ -73,7 +78,7 @@ main {
 }
 
 
-.saveEnd {
+.buttons {
     display: block;
     text-align: center;
 }

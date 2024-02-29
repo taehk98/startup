@@ -22,7 +22,9 @@ function createUser() {
         attendances = JSON.parse(attendancesText);
     }
 
-    const newAttendances = { name: localStorage.getItem('userName'), club: localStorage.getItem('clubName'), willAttend: null}
+    const newAttendances = { name: localStorage.getItem('userName'), 
+        club: localStorage.getItem('clubName'), willAttend: null, actualAtt: null, 
+        attNum: 0, notAttNum: 0, fakeAttNum: 0};
     attendances.push(newAttendances);
 
     localStorage.setItem('attendances', JSON.stringify(attendances));
