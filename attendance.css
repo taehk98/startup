@@ -31,11 +31,25 @@ ul .nav-item {
     color: rgb(6, 32, 119);
   }
 
-
-/* .two-column-list {
-    display: block;
-    text-align: center;
-} */
+.scrollable-list {
+    max-height: 300px; /* 일정 높이 이상이 되면 스크롤로 표시 */
+    overflow-y: auto; /* 세로 스크롤을 사용하도록 설정 */
+    padding-left: 0; /* 기본 들여쓰기 제거 */
+}
+.scrollable-list li {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 5px 0; /* 각 아이템 간 간격 설정 */
+}
+.scrollable-list::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 */
+}
+.scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #e3f2fd; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 모양 */
+}
+.scrollable-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(6, 32, 119); /* 스크롤바 호버시 색상 */
+}
 
 .two-column-list {
     display: flex;

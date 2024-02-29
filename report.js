@@ -4,7 +4,9 @@ class List {
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
-        userNameEl.textContent = this.getUserName();
+        let userName = this.getUserName();
+        let truncatedName = this.truncateName(userName);
+        userNameEl.textContent = truncatedName;
         const clubNameEl = document.querySelector('.club-name');
         clubNameEl.textContent = this.getClubName().toUpperCase();
         this.initializeTable('fakeAttTb');
@@ -76,27 +78,42 @@ class List {
         }
 
         let newRow = document.createElement("tr");
+        let truncatedName = this.truncateName(data.name);
         if(tableName === 'fakeAttTb'){
             newRow.innerHTML = `
-                <th>${index}</th>
-                <th>${data.name}</th>
-                <th>${data.fakeAttNum} Time(s)</th>
+                <td>${index}</td>
+                <td>${truncatedName}</td>
+                <td>${data.fakeAttNum} Time(s)</td>
             `;
         }else if (tableName === 'attRateTb'){
-            let rate = data.attNum / (data.attNum + data.notAttNum) * 100;
+            let rate = (data.attNum + data.notAttNum) ? data.attNum / (data.attNum + data.notAttNum) * 100 : 0;
             let total = data.attNum + data.notAttNum;
             newRow.innerHTML = `
-                <th>${index}</th>
-                <th>${data.name}</th>
-                <th>${data.attNum}/${total}</th>
-                <th>${rate} %</th>
+                <td>${index}</td>
+                <td>${truncatedName}</td>
+                <td>${data.attNum} / ${total}</td>
+                <td>${rate} %</td>
             `;
         }
         
         tbody.appendChild(newRow);
     }
 
+    truncateName(name) {
+        let firstWord = name;
+        if(this.isEnglish(name) && name.length > 15){
+            const words = name.split(' '); // 이름을 빈칸을 기준으로 나눔
+            firstWord = words[0]; // 맨 앞에 있는 단어 저장
+            if (firstWord.length > 15) { // 단어가 15자 이상인 경우
+                firstWord = firstWord.slice(0, 10) + '...'; // 첫 10자만 유지하고 나머지는 생략
+            }
+        }
+        return firstWord; 
+    }
 
+    isEnglish(text) {
+        return /^[a-zA-Z]+$/.test(text);
+    }
     
 }
 

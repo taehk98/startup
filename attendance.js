@@ -7,7 +7,9 @@ class Attandance {
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
-        userNameEl.textContent = this.getUserName();
+        let userName = this.getUserName();
+        let truncatedName = this.truncateName(userName);
+        userNameEl.textContent = truncatedName;
         const clubNameEl = document.querySelector('.club-name');
         clubNameEl.textContent = this.getClubName().toUpperCase();
         this.currAttendList = [];
@@ -156,7 +158,8 @@ class Attandance {
             
             this.currAttendList.forEach(name => {
                 const listItem = document.createElement('li');
-                listItem.textContent = name;
+                let truncatedName = this.truncateName(name);
+                listItem.textContent = truncatedName;
                 listItem.classList.add('list-group-item');
                 attendList.appendChild(listItem);
             })
@@ -172,7 +175,8 @@ class Attandance {
 
             this.currAbsentList.forEach(name => {
                 const listItem = document.createElement('li');
-                listItem.textContent = name;
+                let truncatedName = this.truncateName(name);
+                listItem.textContent = truncatedName;
                 listItem.classList.add('list-group-item');
                 absentList.appendChild(listItem);
             });
@@ -222,6 +226,22 @@ class Attandance {
         });
         localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
         this.loadLists();
+    }
+
+    truncateName(name) {
+        let firstWord = name;
+        if(this.isEnglish(name) && name.length > 15){
+            const words = name.split(' '); // 이름을 빈칸을 기준으로 나눔
+            firstWord = words[0]; // 맨 앞에 있는 단어 저장
+            if (firstWord.length > 15) { // 단어가 15자 이상인 경우
+                firstWord = firstWord.slice(0, 10) + '...'; // 첫 10자만 유지하고 나머지는 생략
+            }
+        }
+        return firstWord; 
+    }
+
+    isEnglish(text) {
+        return /^[a-zA-Z]+$/.test(text);
     }
 }
 

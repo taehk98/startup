@@ -31,9 +31,10 @@ ul .nav-item {
     color: rgb(6, 32, 119);
   }
 
-.navbar-text {
-    padding-right: 3vh;
-    font-size: 2vh;
+  .navbar-text {
+    margin: 0 auto;
+    padding-right: 1em;
+    font-size: 1.5vh;
     color: black !important;
 }
 
