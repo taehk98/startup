@@ -72,6 +72,12 @@ label {
     text-align: center;
 }
 
+input[type="checkbox"]:disabled {
+    /* 회색 배경색과 흐림 효과 추가 */
+    background-color: #ccc;
+    opacity: 0.5; /* 선택적으로 투명도 조절 가능 */
+}
+
 
 main {
     padding-top: 5vh;

@@ -59,16 +59,38 @@ class Attandance {
     getUserID() {
         return localStorage.getItem('userID') ?? 'Mystery UserID';
     }
-    
+
+    saveActualRecord() {
+        let checkboxElements = document.querySelectorAll("input");
+
+        checkboxElements.forEach(function(element){
+            if (element.disabled) {
+                element.disabled = false;
+            }
+        });
+
+        const clubMemberObjs = this.getClubMemberObjs();
+        
+    }
+
+    saveVoting() {
+        let checkboxElements = document.querySelectorAll("input");
+
+        checkboxElements.forEach(function(element){
+            if (!element.disabled) {
+                element.disabled = true;
+            }
+        });
+    }
 
 
     checkedAttend() {
-        this.saveAttend(true);
+        this.saveWillAttend(true);
         this.loadLists();
     }
 
     checkedAbsent() {
-        this.saveAttend(false);
+        this.saveWillAttend(false);
         this.loadLists();
     }
 
@@ -103,7 +125,6 @@ class Attandance {
                 return attendance; 
             }
         });
-        console.log(updatedAttendances);
         return updatedAttendances; // 새로운 배열 반환
     }
 
