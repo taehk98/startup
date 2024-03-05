@@ -22,6 +22,35 @@ ul .nav-item {
     padding: 10px;
 }
 
+#Present-text{
+    padding-left: 15.765px;
+    padding-right: 15.765px;
+}
+
+#user-messages {
+    padding-top: 0.25em;
+    opacity: 0.7;
+}
+
+.user-name-text {
+    color: rgb(118, 190, 210);
+    padding-left: 5px;
+}
+
+.users {
+    flex: 1;
+    width: 100%;
+    padding: 0.5em;
+}
+
+.event {
+    color: rgb(165, 220, 235);
+  }
+
+.user-event {
+    color: rgb(69, 69, 69);
+}
+
 .navbar-nav {
     flex: 1;
     display: flex;
@@ -78,6 +107,7 @@ ul .nav-item {
 .users {
     display: flex;
     justify-content:flex-start;
+    position: absolute;
 }
 
 label {

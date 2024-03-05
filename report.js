@@ -86,7 +86,7 @@ class List {
                 <td>${data.fakeAttNum} Time(s)</td>
             `;
         }else if (tableName === 'attRateTb'){
-            let rate = (data.attNum + data.notAttNum) ? data.attNum / (data.attNum + data.notAttNum) * 100 : 0;
+            let rate = (data.attNum + data.notAttNum) ? (data.attNum / (data.attNum + data.notAttNum) * 100).toFixed(2) : 0;
             let total = data.attNum + data.notAttNum;
             newRow.innerHTML = `
                 <td>${index}</td>

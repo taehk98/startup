@@ -37,6 +37,9 @@ class Attandance {
         if (presentCheckbox.checked) {
             absentCheckbox.checked = false;
             this.checkedAttend();
+        }else {
+            absentCheckbox.checked = true;
+            this.checkedAbsent();
         }
     }
 
@@ -47,6 +50,9 @@ class Attandance {
         if (absentCheckbox.checked) {
             presentCheckbox.checked = false;
             this.checkedAbsent();
+        }else{
+            presentCheckbox.checked = true;
+            this.checkedAttend();
         }
     }
 
@@ -152,10 +158,24 @@ class Attandance {
             const attendList = document.getElementById('attendList');
             attendList.innerHTML = '';
 
-            this.currAttendList = clubMemberObjs
+            if(this.saveActual){
+                this.currAttendList = clubMemberObjs
+                    .filter(member => member.actualAtt)
+                    .map(member => member.name);
+
+                this.currAbsentList = clubMemberObjs
+                    .filter(member => !member.actualAtt)
+                    .map(member => member.name);
+            }else {
+                this.currAttendList = clubMemberObjs
                 .filter(member => member.willAttend)
                 .map(member => member.name);
-            
+
+                this.currAbsentList = clubMemberObjs
+                .filter(member => !member.willAttend)
+                .map(member => member.name);
+            }
+            // Adds items to 'attendList'
             this.currAttendList.forEach(name => {
                 const listItem = document.createElement('li');
                 let truncatedName = this.truncateName(name);
@@ -164,14 +184,9 @@ class Attandance {
                 attendList.appendChild(listItem);
             })
 
-            // 'absentList'에 아이템 추가
-
+            // Adds items to 'absentList'
             const absentList = document.getElementById('absentList');
-            absentList.innerHTML = ''; // 리스트 초기화
-
-            this.currAbsentList = clubMemberObjs
-                .filter(member => !member.willAttend)
-                .map(member => member.name);
+            absentList.innerHTML = ''; 
 
             this.currAbsentList.forEach(name => {
                 const listItem = document.createElement('li');
@@ -187,17 +202,35 @@ class Attandance {
         this.saveActual = true;
         const PresentTxtEl = document.getElementById("Present-text");
         PresentTxtEl.textContent = "Was Present";
+        PresentTxtEl.style.paddingLeft = "15.76px";
+        PresentTxtEl.style.paddingRight = "15.76px";
         const NotPresentTxtEl = document.getElementById("NotPresent-text");
         NotPresentTxtEl.textContent = "Was Not Present";
         this.endVotingButton.disabled = true;
         this.saveActualButton.disabled = false;
+
+        let clubMemberObjs = this.getClubMemberObjs();
+        
+        const updatedClubMemberObjs = clubMemberObjs.map(member => {
+            // 기존 객체를 복제하여 업데이트
+            const updatedMember = { ...member };
+    
+            // 속성 업데이트         
+            updatedMember.actualAtt = updatedMember.willAttend;
+    
+            // 업데이트된 객체 반환
+            return updatedMember;
+        });
+        localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
+        this.loadLists();
     }
 
     saveActualVoting() {
         this.saveActual = false;
         const PresentTxtEl = document.getElementById("Present-text");
         PresentTxtEl.textContent = "Will Present";
-
+        PresentTxtEl.style.paddingLeft = "13.465px";
+        PresentTxtEl.style.paddingRight = "13.465px";
         const NotPresentTxtEl = document.getElementById("NotPresent-text");
         NotPresentTxtEl.textContent = "Will Not Present";
         this.endVotingButton.disabled = false;
@@ -246,5 +279,19 @@ class Attandance {
 }
 
 const att = new Attandance();
+
+setInterval(() => {
+    const willAttend = Math.random() > 0.5;
+    const chatText = document.querySelector('#user-messages');
+    if(willAttend) {
+        chatText.innerHTML =
+        `<div class="event"><span class="user-event">Kim</span> Will Attend</div>` 
+        + chatText.innerHTML;
+    }else {
+        chatText.innerHTML =
+        `<div class="event"><span class="user-event">Kim</span> Will Not Attend</div>` 
+        + chatText.innerHTML;
+    }}, 5000);
+    
 
 

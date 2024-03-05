@@ -36,40 +36,50 @@
             </nav>
     </header>
     <main>
-        <div class="two-column-list">
-            <!-- First Column -->
-            <div id="column">
-                <label id="Present-text">Will Present</label>
-                <input type="checkbox" id="Present" name="Present">
-                <br/>
-                <ol id="attendList"class="list-group list-group-numbered scrollable-list">
-                    <li class="list-group-item">Item 1</li>
-                    <li class="list-group-item">Item 2</li>
-                </ol>
+        <div>
+            <span class="users">
+                <span class="user-name-text"></span>
+                <div id="user-messages">
+                  <div class="event"><span class="user-event">Taehoon</span> will Atttend</div>
+                  <div class="event"><span class="user-event">Tim</span> will not Attend</div>
+                  <div class="event"><span class="user-event">John</span> Will Attend</div>
+                </div>
+            </span>
+            <div class="two-column-list">
+                <!-- First Column -->
+                <div id="column">
+                    <label id="Present-text">Will Present</label>
+                    <input type="checkbox" id="Present" name="Present">
+                    <br/>
+                    <ol id="attendList"class="list-group list-group-numbered scrollable-list">
+                        <li class="list-group-item">Item 1</li>
+                        <li class="list-group-item">Item 2</li>
+                    </ol>
+                </div>
+                <br />
+                <!-- Second Column -->
+                <div id="column">
+                    <label id="NotPresent-text">Will Not Present</label>
+                    <input type="checkbox" id="notPresent" name="notPresent">
+                    <br/>
+                    <ol id="absentList"class="list-group list-group-numbered scrollable-list">
+                        <li class="list-group-item">Item A</li>
+                        <li class="list-group-item">Item B</li>
+                    </ol>
+                </div>
             </div>
-            
+    
             <br />
-            <!-- Second Column -->
-            <div id="column">
-                <label id="NotPresent-text">Will Not Present</label>
-                <input type="checkbox" id="notPresent" name="notPresent">
-                <br/>
-                <ol id="absentList"class="list-group list-group-numbered scrollable-list">
-                    <li class="list-group-item">Item A</li>
-                    <li class="list-group-item">Item B</li>
-                </ol>
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" id="SaveActualButton">Save Actual Attendance Records</button>
+                <button type="button" class="btn btn-primary" id="endButton">End Voting</button>
             </div>
+    
+              <br />
+    
+            <div id="map" style="width:200px;height:200px; margin: 0 auto;">placeholder for web service</div>
         </div>
-
-        <br />
-        <div class="buttons">
-            <button type="button" class="btn btn-primary" id="SaveActualButton">Save Actual Attendance Records</button>
-            <button type="button" class="btn btn-primary" id="endButton">End Voting</button>
-        </div>
-
-          <br />
-
-        <div id="map" style="width:200px;height:200px; margin: 0 auto;">placeholder for web service</div>
+        
     </main>
     <footer>
         <hr />
