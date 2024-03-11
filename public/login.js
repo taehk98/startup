@@ -1,3 +1,5 @@
+
+
 function loginUser() {
     const nameEl = document.querySelector("#name");
     localStorage.setItem("userName", nameEl.value);
@@ -8,24 +10,31 @@ function loginUser() {
     window.location.href = "attendance.html";
 }
 
-function createUser() {
+async function createUser() {
     const nameEl = document.querySelector("#name");
     localStorage.setItem("userName", nameEl.value);
 
     const clubEl = document.querySelector("#clubCode");
     localStorage.setItem("clubName", clubEl.value);
 
-
-    const attendancesText = localStorage.getItem('attendances');
-    let attendances = [];
-    if (attendancesText) {
-        attendances = JSON.parse(attendancesText);
-    }
-
     const newAttendances = { name: localStorage.getItem('userName'), 
         club: localStorage.getItem('clubName'), willAttend: null, actualAtt: null, 
         attNum: 0, notAttNum: 0, fakeAttNum: 0};
-    attendances.push(newAttendances);
+
+    try {
+            const response = await fetch('/api/save-attendances', {
+              method: 'POST',
+              headers: {'content-type': 'application/json'},
+              body: JSON.stringify(newAttendances),
+            });
+      
+            // Store what the service gave us as the high scores
+            const attendances = await response.json();
+            localStorage.setItem('attendances', JSON.stringify(attendances));
+    } catch {
+            // If there was an error then just track scores locally
+            this.updateScoresLocal(newAttendances);
+    }
 
     localStorage.setItem('attendances', JSON.stringify(attendances));
 

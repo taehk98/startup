@@ -1,6 +1,6 @@
 
 class List {
-    
+    attendances;
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
@@ -11,6 +11,7 @@ class List {
         clubNameEl.textContent = this.getClubName().toUpperCase();
         this.initializeTable('fakeAttTb');
         this.initializeTable('attRateTb');
+        this.attendances = loadAttendances();
     }
 
     getUserName() {
@@ -26,16 +27,10 @@ class List {
     }
     
     getClubMemberObjs() {
-        let attendances = [];
-        let clubMemberObjs = [];
-        const club = this.getClubName();
-        const attendanceText = localStorage.getItem('attendances');
+        const clubName = this.getClubName();
 
-        if(attendanceText){
-            attendances = JSON.parse(attendanceText);
-        }
-        if(club !== 'Mystery Club') {
-            clubMemberObjs = attendances.filter(obj => obj.club === club);
+        if(clubName!== 'Mystery Club') {
+            clubMemberObjs = this.attendances.filter(obj => obj.club === club);
         }
         return clubMemberObjs;
     }
@@ -54,17 +49,13 @@ class List {
     }
     
     populateFakeAttTable () {
-        let attendances = this.getClubMemberObjs();
-
-        attendances.forEach((data, index) => {
+        clubMemberObjs.forEach((data, index) => {
             this.addRow(index + 1, data, 'fakeAttTb');
         });
     }
 
     populateAttRateTable() {
-        let attendances = this.getClubMemberObjs();
-
-        attendances.forEach((data, index) => {
+        clubMemberObjs.forEach((data, index) => {
             this.addRow(index + 1, data, 'attRateTb');
         });
     }
@@ -119,3 +110,23 @@ class List {
 
 
 const list = new List();
+
+
+async function loadAttendances(clubName) {
+    let attendances = [];
+    try {
+      // Get the latest high scores from the service
+      const response = await fetch('/api/attendances');
+      attendances = await response.json();
+  
+      // Save the scores in case we go offline in the future
+      localStorage.setItem('attendances', JSON.stringify(attendances));
+    } catch {
+      // If there was an error then just use the last saved scores
+      const attendancesText = localStorage.getItem('attendances');
+      if (attendancesText) {
+        attendances = JSON.parse(attendancesText);
+      }
+    }
+    return attendances;
+}
