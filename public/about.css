@@ -11,6 +11,7 @@
     border-collapse: collapse;
     display: flex;
     justify-content: center;
+    padding-top: 10px;
 }
 
 .matches th, .matches td {
@@ -20,12 +21,12 @@
 }
 
 .matches th {
-    background-color: #f2f2f2;
+    background-color: #e3f2fd;
     font-weight: bold;
 }
 
 .matches tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #e3f2fd;
 }
 
 .matches tr:hover {
