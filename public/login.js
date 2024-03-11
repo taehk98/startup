@@ -33,10 +33,33 @@ async function createUser() {
             localStorage.setItem('attendances', JSON.stringify(attendances));
     } catch {
             // If there was an error then just track scores locally
-            this.updateScoresLocal(newAttendances);
+            updateAttendancesLocal(newAttendances);
+    }
+
+    window.location.href = "attendance.html";
+}
+
+
+function updateAttendancesLocal(newAttendance) {
+    let attendances = [];
+    const attendancesText = localStorage.getItem('attendances');
+    if (attendancesText) {
+        attendances = JSON.parse(attendancesText);
+    }
+
+    let found = false;
+    for (let i = 0; i < attendances.length; i++) {
+        user = attendances[i];
+        if (user.name == newAttendance.name && user.club == newAttendance.club) {
+            attendances[i] = newAttendance;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        attendances.push(newAttendance);
     }
 
     localStorage.setItem('attendances', JSON.stringify(attendances));
-
-    window.location.href = "attendance.html";
 }

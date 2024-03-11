@@ -1,6 +1,5 @@
 
 class List {
-    attendances;
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
@@ -11,7 +10,7 @@ class List {
         clubNameEl.textContent = this.getClubName().toUpperCase();
         this.initializeTable('fakeAttTb');
         this.initializeTable('attRateTb');
-        this.attendances = loadAttendances();
+        this.clubMemberObjs = [];
     }
 
     getUserName() {
@@ -26,13 +25,23 @@ class List {
         return localStorage.getItem('userID') ?? 'Mystery UserID';
     }
     
-    getClubMemberObjs() {
-        const clubName = this.getClubName();
-
-        if(clubName!== 'Mystery Club') {
-            clubMemberObjs = this.attendances.filter(obj => obj.club === club);
+    async getClubMemberObjs() {
+        try {
+            let attendances = await this.loadAttendances(); // await 키워드 추가
+            const clubName = this.getClubName();
+            let clubMemberObjs = [];
+    
+            if (clubName !== 'Mystery Club') {
+                if (Array.isArray(attendances)) {
+                    clubMemberObjs = attendances.filter(obj => obj.club === clubName);
+                } else {
+                    console.log(attendances);
+                }
+            }
+            return clubMemberObjs;
+        } catch (error) {
+            console.error(error); // 오류 처리
         }
-        return clubMemberObjs;
     }
 
     initializeTable(tableName) {
@@ -48,13 +57,15 @@ class List {
         }
     }
     
-    populateFakeAttTable () {
+    async populateFakeAttTable () {
+        let clubMemberObjs = await this.getClubMemberObjs();
         clubMemberObjs.forEach((data, index) => {
             this.addRow(index + 1, data, 'fakeAttTb');
         });
     }
 
-    populateAttRateTable() {
+    async populateAttRateTable() {
+        let clubMemberObjs = await this.getClubMemberObjs();
         clubMemberObjs.forEach((data, index) => {
             this.addRow(index + 1, data, 'attRateTb');
         });
@@ -106,27 +117,26 @@ class List {
         return /^[a-zA-Z]+$/.test(text);
     }
     
+    async loadAttendances() {
+        let attendances = [];
+        try {
+        // Get the latest high scores from the service
+        const response = await fetch('/api/attendances');
+        attendances = await response.json();
+    
+        // Save the scores in case we go offline in the future
+        localStorage.setItem('attendances', JSON.stringify(attendances));
+        } catch {
+        // If there was an error then just use the last saved scores
+        const attendancesText = localStorage.getItem('attendances');
+        if (attendancesText) {
+            attendances = JSON.parse(attendancesText);
+        }
+        }
+        return attendances;
+    }
 }
 
 
 const list = new List();
 
-
-async function loadAttendances(clubName) {
-    let attendances = [];
-    try {
-      // Get the latest high scores from the service
-      const response = await fetch('/api/attendances');
-      attendances = await response.json();
-  
-      // Save the scores in case we go offline in the future
-      localStorage.setItem('attendances', JSON.stringify(attendances));
-    } catch {
-      // If there was an error then just use the last saved scores
-      const attendancesText = localStorage.getItem('attendances');
-      if (attendancesText) {
-        attendances = JSON.parse(attendancesText);
-      }
-    }
-    return attendances;
-}

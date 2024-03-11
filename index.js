@@ -24,6 +24,11 @@ apiRouter.post('/save-attendances', (req, res) => {
     res.send(attendances);
 })
 
+apiRouter.post('/replace-attendances', (req, res) => {
+    attendances = replaceAttentances(req.body, attendances);
+    res.send(attendances);
+})
+
 
 app.use((_req, res) => {
     res.sendFile('login.html', { root: 'public' });
@@ -41,7 +46,7 @@ function updateAttendances(newAttendance, attendances) {
     let user;
     for (let i = 0; i < attendances.length; i++) {
         user = attendances[i];
-        if (user.name == newAttendance[i].name && user.club == newAttendance[i].club) {
+        if (user.name == newAttendance.name && user.club == newAttendance.club) {
             attendances[i] = newAttendance;
             found = true;
             break;
@@ -52,5 +57,10 @@ function updateAttendances(newAttendance, attendances) {
         attendances.push(newAttendance);
     }
 
+    return attendances;
+}
+
+function replaceAttentances(newAttendances, attendances) {
+    attendances = newAttendances;
     return attendances;
 }

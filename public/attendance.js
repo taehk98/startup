@@ -4,7 +4,6 @@ class Attandance {
     endVotingButton; 
     saveActualButton; 
     saveActual;
-    attendances;
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
@@ -18,7 +17,6 @@ class Attandance {
         this.saveActual = false;
         this.loadLists();
         hideUserDivOnMobile();
-        this.attendances = loadAttendances();
 
         const presentCheckbox = document.getElementById('Present');
         presentCheckbox.addEventListener('click', this.handlePresentCheck.bind(this));
@@ -36,29 +34,29 @@ class Attandance {
 
     }
 
-    handlePresentCheck() {
+    async handlePresentCheck() {
         const presentCheckbox = document.getElementById('Present');
         const absentCheckbox = document.getElementById('notPresent');
 
         if (presentCheckbox.checked) {
             absentCheckbox.checked = false;
-            this.checkedAttend();
+            await this.checkedAttend();
         }else {
             absentCheckbox.checked = true;
-            this.checkedAbsent();
+            await this.checkedAbsent();
         }
     }
 
-    handleAbsentCheck() {
+    async handleAbsentCheck() {
         const presentCheckbox = document.getElementById('Present');
         const absentCheckbox = document.getElementById('notPresent');
 
         if (absentCheckbox.checked) {
             presentCheckbox.checked = false;
-            this.checkedAbsent();
+            await this.checkedAbsent();
         }else{
             presentCheckbox.checked = true;
-            this.checkedAttend();
+            await this.checkedAttend();
         }
     }
 
@@ -94,36 +92,43 @@ class Attandance {
         });
     }
 
-    getClubMemberObjs() {
-        const clubName = this.getClubName();
-
-        if(clubName!== 'Mystery Club') {
-            clubMemberObjs = this.attendances.filter(obj => obj.club === club);
+    async getClubMemberObjs() {
+        try {
+            let attendances = await this.loadAttendances(); // await 키워드 추가
+            const clubName = this.getClubName();
+            let clubMemberObjs = [];
+    
+            if (clubName !== 'Mystery Club') {
+                if (Array.isArray(attendances)) {
+                    clubMemberObjs = attendances.filter(obj => obj.club === clubName);
+                } else {
+                    console.log(attendances);
+                }
+            }
+            return clubMemberObjs;
+        } catch (error) {
+            console.error(error); // 오류 처리
         }
-        return clubMemberObjs;
     }
 
 
-    checkedAttend() {
-        this.saveAttend(true);
-        this.loadLists();
+    async checkedAttend() {
+        await this.saveAttend(true);
+        await this.loadLists();
     }
 
-    checkedAbsent() {
-        this.saveAttend(false);
-        this.loadLists();
+    async checkedAbsent() {
+        await this.saveAttend(false);
+        await this.loadLists();
     }
 
-    saveAttend(att) {
+    async saveAttend(att) {
         const userName = this.getUserName();
         const clubName = this.getClubName();
-        const attendanceText = attendances;
-        
-        if(attendanceText){
-            attendances = JSON.parse(attendanceText);
-        }
+        let attendances = await this.loadAttendances();
+
         let currObj = attendances.filter(obj => obj.name === userName)[0];
-        this.updateAttendances(userName, clubName, att, currObj, attendances);
+        await this.updateAttendances(userName, clubName, att, currObj, attendances);
     }
 
 
@@ -158,10 +163,9 @@ class Attandance {
           }
     }
 
-    loadLists() {
-        if(this.getClubMemberObjs() !== null){
-            const clubMemberObjs = this.getClubMemberObjs();
-
+    async loadLists() {
+        let clubMemberObjs = await this.getClubMemberObjs();
+        if(clubMemberObjs !== null){
             const attendList = document.getElementById('attendList');
             attendList.innerHTML = '';
 
@@ -205,7 +209,7 @@ class Attandance {
         }
     }
 
-    endVoting () {
+    async endVoting () {
         this.saveActual = true;
         const PresentTxtEl = document.getElementById("Present-text");
         PresentTxtEl.textContent = "Was Present";
@@ -216,7 +220,7 @@ class Attandance {
         this.endVotingButton.disabled = true;
         this.saveActualButton.disabled = false;
 
-        let clubMemberObjs = this.getClubMemberObjs();
+        let clubMemberObjs = await this.getClubMemberObjs();
         
         const updatedClubMemberObjs = clubMemberObjs.map(member => {
             // 기존 객체를 복제하여 업데이트
@@ -228,11 +232,24 @@ class Attandance {
             // 업데이트된 객체 반환
             return updatedMember;
         });
-        localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
+        try {
+            const response = await fetch('/api/replace-attendances', {
+              method: 'POST',
+              headers: {'content-type': 'application/json'},
+              body: JSON.stringify(updatedClubMemberObjs),
+            });
+      
+            // Store what the service gave us as the high scores
+            const attendances = await response.json();
+            localStorage.setItem('attendances', JSON.stringify(attendances));
+          } catch {
+            // If there was an error then just track scores locally
+            localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
+          }
         this.loadLists();
     }
 
-    saveActualVoting() {
+    async saveActualVoting() {
         this.saveActual = false;
         const PresentTxtEl = document.getElementById("Present-text");
         PresentTxtEl.textContent = "Will Present";
@@ -243,7 +260,7 @@ class Attandance {
         this.endVotingButton.disabled = false;
         this.saveActualButton.disabled = true;
 
-        let clubMemberObjs = this.getClubMemberObjs() 
+        let clubMemberObjs = await this.getClubMemberObjs() ;
         
         const updatedClubMemberObjs = clubMemberObjs.map(member => {
             // 기존 객체를 복제하여 업데이트
@@ -264,7 +281,20 @@ class Attandance {
             // 업데이트된 객체 반환
             return updatedMember;
         });
-        localStorage.setItem('attendances' , JSON.stringify(updatedClubMemberObjs));
+        try {
+            const response = await fetch('/api/replace-attendances', {
+              method: 'POST',
+              headers: {'content-type': 'application/json'},
+              body: JSON.stringify(updatedClubMemberObjs),
+            });
+      
+            // Store what the service gave us as the high scores
+            const attendances = await response.json();
+            localStorage.setItem('attendances', JSON.stringify(attendances));
+          } catch {
+            // If there was an error then just track scores locally
+            localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
+          }
         this.loadLists();
     }
 
@@ -282,6 +312,49 @@ class Attandance {
 
     isEnglish(text) {
         return /^[a-zA-Z]+$/.test(text);
+    }
+
+    async loadAttendances() {
+        let attendances = [];
+        try {
+          // Get the latest high scores from the service
+          const response = await fetch('/api/attendances');
+          attendances = await response.json();
+      
+          // Save the scores in case we go offline in the future
+          localStorage.setItem('attendances', JSON.stringify(attendances));
+        } catch {
+          // If there was an error then just use the last saved scores
+          const attendancesText = localStorage.getItem('attendances');
+          if (attendancesText) {
+            attendances = JSON.parse(attendancesText);
+          }
+        }
+        return attendances;
+    }
+
+    updateAttendancesLocal(newAttendance) {
+        let attendances = [];
+        const attendancesText = localStorage.getItem('attendances');
+        if (attendancesText) {
+            attendances = JSON.parse(attendancesText);
+        }
+    
+        let found = false;
+        for (let i = 0; i < attendances.length; i++) {
+            let user = attendances[i];
+            if (user.name == newAttendance.name && user.club == newAttendance.club) {
+                attendances[i] = newAttendance;
+                found = true;
+                break;
+            }
+        }
+    
+        if (!found) {
+            attendances.push(newAttendance);
+        }
+    
+        localStorage.setItem('attendances', JSON.stringify(attendances));
     }
 }
 
@@ -311,47 +384,4 @@ function hideUserDivOnMobile() {
     } else {
         usersDiv.style.display = 'block'; // 유저 디브 보임
     }
-}
-
-async function loadAttendances() {
-    let attendances = [];
-    try {
-      // Get the latest high scores from the service
-      const response = await fetch('/api/attendances');
-      attendances = await response.json();
-  
-      // Save the scores in case we go offline in the future
-      localStorage.setItem('attendances', JSON.stringify(attendances));
-    } catch {
-      // If there was an error then just use the last saved scores
-      const attendancesText = localStorage.getItem('attendances');
-      if (attendancesText) {
-        attendances = JSON.parse(attendancesText);
-      }
-    }
-    return attendances;
-}
-
-function updateAttendancesLocal(newAttendance) {
-    let attendances = [];
-    const attendancesText = localStorage.getItem('attendances');
-    if (attendancesText) {
-        attendances = JSON.parse(attendancesText);
-    }
-
-    let found = false;
-    for (let i = 0; i < attendances.length; i++) {
-        user = attendances[i];
-        if (user.name == newAttendance[i].name && user.club == newAttendance[i].club) {
-            attendances[i] = newAttendance;
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
-        attendances.push(newAttendance);
-    }
-
-    localStorage.setItem('attendances', JSON.stringify(attendances));
 }
