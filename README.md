@@ -81,8 +81,8 @@ I added backend endpoints for getting and updating attendances.
 - **Node.js/Express HTTP service** - done!
 - **Static middleware for frontend** - done!
 - **Calls to third party endpoints** - My app utilizes the football-data.org API to retrieve information on Premier League matches, and I generate a table with it.
-- **Backend service endpoints** - 
-- **Frontend calls service endpoints** - 
+- **Backend service endpoints** - created: /get-attendances, /update-attendances, /replace-attendances, /soccer-results
+- **Frontend calls service endpoints** - Fetching match attendance data from /get-attendances, updating attendance records via /update-attendances, replacing attendance data using /replace-attendances, retrieving soccer match results from /soccer-results.
 
 ## DB/Login deliverable
 
