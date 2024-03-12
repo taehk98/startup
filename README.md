@@ -76,13 +76,13 @@ I am going to use the required technologies in the following ways.
 - **application logic** - When users click the "End Voting" button, the lists for both attendees and absentees will be stored in local storage with a boolean property indicating their attendance intention. Moreover, the titles of the lists, initially "Will Present" and "Will Be Absent," will be updated to "Was Present" and "Was Not Present," respectively. Additionally, when users click the "Save Actual Attendance Records" button after recording actual participation, the data will be saved with a boolean property indicating actual attendance. Subsequently, the attendance rate and fake attendance number properties will be updated accordingly. Also, the attendance and report pages look different for each club.
 
 ## Service deliverable
+I added backend endpoints for getting and updating attendances.
 
-
-- **Node.js/Express HTTP service** - 
-- **Static middleware for frontend** - 
-- **Calls to third party endpoints** - 
-- **Backend service endpoints** - 
-- **Frontend calls service endpoints** - 
+- **Node.js/Express HTTP service** - done!
+- **Static middleware for frontend** - done!
+- **Calls to third party endpoints** - My app utilizes the football-data.org API to retrieve information on Premier League matches, and I generate a table with it.
+- **Backend service endpoints** - created: /get-attendances, /update-attendances, /replace-attendances, /soccer-results
+- **Frontend calls service endpoints** - Fetching match attendance data from /get-attendances, updating attendance records via /update-attendances, replacing attendance data using /replace-attendances, retrieving soccer match results from /soccer-results.
 
 ## DB/Login deliverable
 
