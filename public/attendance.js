@@ -296,6 +296,10 @@ class Attandance {
             localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
           }
         this.loadLists();
+        const presentCheckbox = document.getElementById('Present');
+        const absentCheckbox = document.getElementById('notPresent');
+        absentCheckbox.checked = true;
+        presentCheckbox.checked = false;
     }
 
     truncateName(name) {
