@@ -33,6 +33,8 @@ app.get('/soccer-results', async (req, res) => {
     }
 });
 
+//http://api.football-data.org/v4/competitions/PL/standings 프리미어리그 순서 가져오는 api endpoint
+
 apiRouter.post('/save-attendances', (req, res) => {
     attendances = updateAttendances(req.body, attendances);
     res.send(attendances);
