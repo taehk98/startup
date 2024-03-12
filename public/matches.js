@@ -1,6 +1,6 @@
 
 
-class About {
+class Matches {
     
     constructor() {
         const userNameEl = document.querySelector('.user-name');
@@ -43,7 +43,7 @@ class About {
     
 }
 
-const about = new About();
+const PL = new Matches();
 
 function displaySoccerResults() {
     fetch(`/soccer-results`)
