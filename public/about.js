@@ -1,6 +1,4 @@
 
-const apiKey = '75f916f699ad49f79edba73078d9d347'; // 여기에 API 인증 키를 넣어주세요
-const date = '2022-03-09';
 
 class About {
     
@@ -48,11 +46,7 @@ class About {
 const about = new About();
 
 function displaySoccerResults() {
-    fetch(`https://api.football-data.org/v4/competitions/PL/matches`, {
-        headers: {
-            'X-Auth-Token': apiKey
-        }
-    })
+    fetch(`/soccer-results`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -81,7 +75,7 @@ function extractData(PL) {
     const dateFrom = date.toISOString().slice(0, 10);
     date.setDate(date.getDate() + 7); // 4일 후 날짜 계산
     const dateTo = date.toISOString().slice(0, 10);
-
+    console.log(PL);
     // 테이블 요소 가져오기
     const table = document.getElementById('scores');
 
@@ -91,10 +85,16 @@ function extractData(PL) {
         if (matchDate >= dateFrom && matchDate <= dateTo) {
             const homeScore = PL.matches[i].score.fullTime.home;
             const awayScore = PL.matches[i].score.fullTime.away;
-            
+            const utcDate = new Date(PL.matches[i].utcDate);
+            const hours = utcDate.getHours();
+            const minutes = utcDate.getMinutes();
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+
+
                 const homeTeam = PL.matches[i].homeTeam.name;
                 const awayTeam = PL.matches[i].awayTeam.name;
-                const matchInfo = `${matchDate}-${homeTeam}-${awayTeam}-${homeScore}-${awayScore}`;
+                const matchInfo = `${matchDate} ${formattedHours}:${formattedMinutes}-${homeTeam}-${awayTeam}-${homeScore}-${awayScore}`;
 
                 // 이미 추가된 경기인지 확인
                 if (!isMatchAlreadyAdded(table, matchInfo)) {
@@ -105,15 +105,18 @@ function extractData(PL) {
                     const cell3 = row.insertCell();
 
                     // Date/Status 열에 날짜 정보 추가
-                    cell1.textContent = matchDate;
+                    cell1.textContent = `${matchDate} ${formattedHours}:${formattedMinutes}`;
 
                     // Opponents 열에 상대팀 정보 추가
                     cell2.textContent = `${homeTeam} vs ${awayTeam}`;
                 if(homeScore !== null && awayScore !== null){
                     // Score 열에 점수 정보 추가
                     cell3.textContent = `${homeScore} - ${awayScore}`;
-                }else {
-                    cell3.textContent = `Scheduled Matches`;
+                }else if (PL.matches[i].status == "POSTPONED"){
+                    cell3.textContent = `POSTPONED`;
+                }
+                else {
+                    cell3.textContent = `TIMED`;
                 }
             }
         }

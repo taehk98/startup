@@ -11,13 +11,14 @@
     border-collapse: collapse;
     display: flex;
     justify-content: center;
+    padding: 8px;
     padding-top: 10px;
 }
 
 .matches th, .matches td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 .matches th {
