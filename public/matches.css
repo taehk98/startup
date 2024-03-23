@@ -1,0 +1,89 @@
+* {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+    "slnt" 0;
+    font-weight:400;
+}
+
+.matches {
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    padding-top: 10px;
+}
+
+.matches th, .matches td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.matches th {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+.matches tr:nth-child(even) {
+    background-color: #e3f2fd;
+}
+
+.matches tr:hover {
+    background-color: #ddd;
+}
+
+ul .nav-item {
+    padding: 0 0.3em;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.form-group{
+    width:350px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 10px;
+}
+
+.navbar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: row !important;
+    list-style: none;
+    color: rgb(6, 32, 119);
+  }
+
+.navbar-text {
+    margin: 0 auto;
+    padding-right: 1em;
+    font-size: 1.5vh;
+    color: black !important;
+}
+
+#sccoerpitch {
+    padding-top: 3vh;
+    display: flex;
+    justify-content: center;
+}
+.user-name {
+    padding-right: 1em;
+}
+
+p {
+    padding-top: 3vh;
+    text-align: center;
+}
+
+footer{
+    margin:0 auto;
+    text-align:center;
+    bottom:5px;
+    color:gray;
+    max-width: 100%;
+    height: auto;
+    font-size: small;
+}
