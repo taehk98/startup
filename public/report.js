@@ -21,6 +21,11 @@ class List {
         return localStorage.getItem('clubName') ?? 'Mystery Club';
     }
 
+    
+    getUserEmail() {
+        return localStorage.getItem('userEmail') ?? 'Mystery Email';
+    }
+
     getUserID() {
         return localStorage.getItem('userID') ?? 'Mystery UserID';
     }
@@ -81,19 +86,21 @@ class List {
 
         let newRow = document.createElement("tr");
         let truncatedName = this.truncateName(data.name);
+        let fak = data.fakeAttNum ? data.fakeAttNum : 0
         if(tableName === 'fakeAttTb'){
             newRow.innerHTML = `
                 <td>${index}</td>
                 <td>${truncatedName}</td>
-                <td>${data.fakeAttNum} Time(s)</td>
+                <td>${fak} Time(s)</td>
             `;
         }else if (tableName === 'attRateTb'){
             let rate = (data.attNum + data.notAttNum) ? (data.attNum / (data.attNum + data.notAttNum) * 100).toFixed(2) : 0;
             let total = data.attNum + data.notAttNum;
+            let attend = data.attNum ? data.attNum : 0
             newRow.innerHTML = `
                 <td>${index}</td>
                 <td>${truncatedName}</td>
-                <td>${data.attNum} / ${total}</td>
+                <td>${attend} / ${total}</td>
                 <td>${rate} %</td>
             `;
         }
@@ -116,22 +123,30 @@ class List {
     isEnglish(text) {
         return /^[a-zA-Z]+$/.test(text);
     }
-    
+
     async loadAttendances() {
         let attendances = [];
-        try {
-        // Get the latest high scores from the service
-        const response = await fetch('/api/attendances');
-        attendances = await response.json();
-    
-        // Save the scores in case we go offline in the future
-        localStorage.setItem('attendances', JSON.stringify(attendances));
-        } catch {
-        // If there was an error then just use the last saved scores
-        const attendancesText = localStorage.getItem('attendances');
-        if (attendancesText) {
-            attendances = JSON.parse(attendancesText);
+        const email = {
+            email: this.getUserEmail()
         }
+        try {
+            const response = await fetch('/api/attendances', {
+                method: 'POST',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(email),
+            });
+          // Get the latest high scores from the service
+
+          attendances = await response.json();
+      
+          // Save the scores in case we go offline in the future
+          localStorage.setItem('attendances', JSON.stringify(attendances));
+        } catch {
+          // If there was an error then just use the last saved scores
+          const attendancesText = localStorage.getItem('attendances');
+          if (attendancesText) {
+            attendances = JSON.parse(attendancesText);
+          }
         }
         return attendances;
     }
