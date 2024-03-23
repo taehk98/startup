@@ -11,3 +11,5 @@ Created index.html, attendance.html, report.html, and about.html files. (2/1/202
 Not sure if I need one more html page just for managers. I think I don't need one for now. (2/1/2024)
 
 Created Css files for the four html pages. (2/14/2024)
+
+Created MongdoDB account and uses it for this project. (3/23/2024)
