@@ -88,9 +88,9 @@ I added backend endpoints for getting and updating attendances.
 
 
 
-- **MongoDB Atlas database created** - 
-- **Stores data in MongoDB** - 
-- **User registration** - 
+- **MongoDB Atlas database created** - done!
+- **Stores data in MongoDB** - done!
+- **User registration** - Creates a new account and a attendance object in the database.
 - **existing user** - 
 - **Use MongoDB to store credentials** - 
 - **Restricts functionality** - 
