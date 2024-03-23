@@ -91,9 +91,9 @@ I added backend endpoints for getting and updating attendances.
 - **MongoDB Atlas database created** - done!
 - **Stores data in MongoDB** - done!
 - **User registration** - Creates a new account and a attendance object in the database.
-- **existing user** - Allows existing users to provide credentials
-- **Use MongoDB to store credentials** - 
-- **Restricts functionality** - 
+- **existing user** - Allows existing users to provide credentials.
+- **Use MongoDB to store credentials** - Stores both user and their attendances.
+- **Restricts functionality** - You cannot vote until you have logged in. 
 
 ## WebSocket deliverable
 
