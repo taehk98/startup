@@ -31,6 +31,7 @@ class Attandance {
         this.saveActualButton.addEventListener('click', this.saveActualVoting.bind(this));
 
         window.addEventListener('resize', hideUserDivOnMobile);
+
     }
 
     async handlePresentCheck() {
@@ -40,10 +41,9 @@ class Attandance {
         if (presentCheckbox.checked) {
             absentCheckbox.checked = false;
             await this.checkedAttend();
-        }
-        else {
-            // absentCheckbox.checked = true;
-            // await this.checkedAbsent();
+        }else {
+            absentCheckbox.checked = true;
+            await this.checkedAbsent();
         }
     }
 
@@ -55,8 +55,8 @@ class Attandance {
             presentCheckbox.checked = false;
             await this.checkedAbsent();
         }else{
-            // presentCheckbox.checked = true;
-            // await this.checkedAttend();
+            presentCheckbox.checked = true;
+            await this.checkedAttend();
         }
     }
 
@@ -66,10 +66,6 @@ class Attandance {
 
     getClubName() {
         return localStorage.getItem('clubName') ?? 'Mystery Club';
-    }
-
-    getUserEmail() {
-        return localStorage.getItem('userEmail') ?? 'Mystery Email';
     }
 
     getUserID() {
@@ -118,16 +114,12 @@ class Attandance {
 
     async checkedAttend() {
         await this.saveAttend(true);
-        // await this.loadLists();
-            this.updateName(true);
+        await this.loadLists();
     }
-       
-        
 
     async checkedAbsent() {
         await this.saveAttend(false);
-        // await this.loadLists();
-        this.updateName(false);
+        await this.loadLists();
     }
 
     async saveAttend(att) {
@@ -140,37 +132,13 @@ class Attandance {
     }
 
 
-
     // 아마 현재 참석 횟수 , 불참 횟수, 참석하기로하고 불참 횟수 추가해야함
     async updateAttendances(userName, clubName, att,  currObj , attendances) {
         let newAttendance;
         if(this.saveActual){
-            newAttendance = {
-                name: userName ,
-                club: clubName ,
-                willAttend: currObj.willAttend,
-                actualAtt: att,
-                attNum: currObj.attNum,
-                notAttNum: currObj.notAttNum,
-                fakeAttNum: currObj.fakeAttNum,
-                password: currObj.password,
-                email: currObj.email,
-                token: currObj.token
-            };
+            newAttendance = {name: userName , club: clubName , willAttend: currObj.willAttend, actualAtt: att, attNum: currObj.attNum, notAttNum: currObj.notAttNum, fakeAttNum: currObj.fakeAttNum};
         }else{
-            newAttendance = {
-                name: userName,
-                club: clubName, 
-                willAttend: att, 
-                actualAtt: currObj.actualAtt, 
-                attNum: currObj.attNum, 
-                notAttNum: currObj.notAttNum,
-                fakeAttNum: currObj.fakeAttNum,
-                password: currObj.password,
-                email: currObj.email,
-                token: currObj.token
-            };
-            console.log(newAttendance);
+            newAttendance = {name: userName , club: clubName , willAttend: att, actualAtt: currObj.actualAtt, attNum: currObj.attNum, notAttNum: currObj.notAttNum, fakeAttNum: currObj.fakeAttNum};
         }
         // const updatedAttendances = attendances.map(attendance => {
         //     if (attendance.name === userName && attendance.club === clubName) {
@@ -180,7 +148,7 @@ class Attandance {
         //     }
         // });
         try {
-            const response = await fetch('/api/save-attendance', {
+            const response = await fetch('/api/save-attendances', {
               method: 'POST',
               headers: {'content-type': 'application/json'},
               body: JSON.stringify(newAttendance),
@@ -196,7 +164,7 @@ class Attandance {
     }
 
     async loadLists() {
-        let clubMemberObjs = await this.loadAttendances();
+        let clubMemberObjs = await this.getClubMemberObjs();
         if(clubMemberObjs !== null){
             const attendList = document.getElementById('attendList');
             attendList.innerHTML = '';
@@ -336,7 +304,7 @@ class Attandance {
 
     truncateName(name) {
         let firstWord = name;
-        if(name != null && this.isEnglish(name) && name.length > 15){
+        if(this.isEnglish(name) && name.length > 15){
             const words = name.split(' '); // 이름을 빈칸을 기준으로 나눔
             firstWord = words[0]; // 맨 앞에 있는 단어 저장
             if (firstWord.length > 15) { // 단어가 15자 이상인 경우
@@ -350,64 +318,11 @@ class Attandance {
         return /^[a-zA-Z]+$/.test(text);
     }
 
-    updateName(att) {
-        const attendList = document.getElementById('attendList');
-        const absentList = document.getElementById('absentList');
-        const userName = this.getUserName();
-        const nameToRemove = this.truncateName(userName);
-        if(att){
-            this.currAbsentList = this.currAbsentList.filter(name => name !== userName);
-            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            console.log(listItemToRemove );
-            if (listItemToRemove) {
-                listItemToRemove.remove();
-            }
-            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            if (ItemToRemove) {
-                ItemToRemove.remove();
-            }
-    
-            const listItem = document.createElement('li');
-            listItem.textContent = this.truncateName(userName);
-            listItem.setAttribute('data-name', userName);
-            listItem.classList.add('list-group-item');
-            attendList.appendChild(listItem);
-            this.currAttendList.push(userName);
-        } else {
-            this.currAttendList = this.currAttendList.filter(name => name !== userName);
-            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            console.log(ItemToRemove);
-            if (ItemToRemove) {
-                ItemToRemove.remove();
-            }
-            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            if (listItemToRemove) {
-                listItemToRemove.remove();
-            }
-    
-            const listItem = document.createElement('li');
-            listItem.textContent = this.truncateName(userName);
-            listItem.setAttribute('data-name', userName);
-            listItem.classList.add('list-group-item');
-            absentList.appendChild(listItem);
-            this.currAbsentList.push(userName);
-        }
-    }
-
-
     async loadAttendances() {
         let attendances = [];
-        const email = {
-            email: this.getUserEmail()
-        }
         try {
-            const response = await fetch('/api/attendances', {
-                method: 'POST',
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(email),
-            });
           // Get the latest high scores from the service
-
+          const response = await fetch('/api/attendances');
           attendances = await response.json();
       
           // Save the scores in case we go offline in the future
@@ -445,7 +360,7 @@ class Attandance {
     
         localStorage.setItem('attendances', JSON.stringify(attendances));
     }
-}   
+}
 
 const att = new Attandance();
 

@@ -25,17 +25,6 @@ ul .nav-item {
     font-weight: bold;
 }
 
-h1 {
-    color: black;
-}
-
-#playerName {
-    color: rgb(118, 190, 210);
-    font-size: 1.5em;
-    padding: 0.5em;
-    text-align:center;
-  }
-
 .form-group{
     width:350px;
     margin-left:auto;
@@ -55,16 +44,6 @@ h1 {
     margin-right:auto;
     color: rgb(6, 32, 119);
 }
-
-.btn.btn-secondary{
-    border:1px solid #bedaee;;
-    background-color: #e3f2fd;
-    width: 162px;
-    margin-left:auto;
-    margin-right:auto;
-    color: rgb(0, 0, 0);
-}
-
 body{
     background-color:#f5f6f7;
 }
