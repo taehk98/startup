@@ -24,7 +24,11 @@ async function loginUser() {
 }
 
 async function createUser() {
-    loginOrCreate(`/api/auth/create`);
+    const name = document.querySelector('#name')?.value;
+    const club = document.querySelector('#clubCode')?.value;
+    await loginOrCreate(`/api/auth/create`);
+    localStorage.setItem('userName', name);
+    localStorage.setItem('clubName', club);
 }
 
 async function loginOrCreate(endpoint) {
