@@ -17,20 +17,7 @@ const port = process.argv.length > 2 ? process.argv[2] : 3000;
 const authCookieName = 'token';
 let attendances = [];
 
-// // connecting mongodb
-// const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
-// const client = new MongoClient(url);
-// const db = client.db('manageyourclub');
-// const collection = db.collection('attendances');
-// const userCollection = db.collection('user');
 
-// (async function testConnection() {
-//     await client.connect();
-//     await db.command({ ping: 1 });
-//   })().catch((ex) => {
-//     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-//     process.exit(1);
-//   });
 
 app.use(express.json());
 
@@ -153,6 +140,51 @@ const httpService = app.listen(port, () => {
 
 peerProxy(httpService);
 
+async function addUserToAttds(email, attendances) {
+    const attd = await DB.getAttendance(email);
+    if (attd) {
+        if (!attendances) {
+            attendances = []; // 만약 비어있으면 빈 배열을 생성합니다.
+        }
+        attendances.push(attd);
+    } else {
+        console.error(`Attendance information not found for email: ${email}`);
+    }
+    return attendances;
+}
+
+// setAuthCookie in the HTTP response
+function setAuthCookie(res, authToken) {
+    res.cookie(authCookieName, authToken, {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+  }
+
+
+
+
+
+
+// on line 20
+// // connecting mongodb
+// const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+// const client = new MongoClient(url);
+// const db = client.db('manageyourclub');
+// const collection = db.collection('attendances');
+// const userCollection = db.collection('user');
+
+// (async function testConnection() {
+//     await client.connect();
+//     await db.command({ ping: 1 });
+//   })().catch((ex) => {
+//     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+//     process.exit(1);
+//   });
+
+
+// on line 143
 // async function updateAttendances(newAttendance, attendances) {
 //     let dbUser = await collection.findOne({email:newAttendance.email});
 //             await collection.replaceOne(
@@ -216,18 +248,6 @@ peerProxy(httpService);
 //     return collection.findOne({ email: email });
 // }
 
-async function addUserToAttds(email, attendances) {
-    const attd = await DB.getAttendance(email);
-    if (attd) {
-        if (!attendances) {
-            attendances = []; // 만약 비어있으면 빈 배열을 생성합니다.
-        }
-        attendances.push(attd);
-    } else {
-        console.error(`Attendance information not found for email: ${email}`);
-    }
-    return attendances;
-}
 
 // async function createUser(email, password, name, club) {
 //     // Hash the password before we insert it into the database
@@ -255,12 +275,3 @@ async function addUserToAttds(email, attendances) {
   
 //     return user;
 //   }
-
-// setAuthCookie in the HTTP response
-function setAuthCookie(res, authToken) {
-    res.cookie(authCookieName, authToken, {
-      secure: true,
-      httpOnly: true,
-      sameSite: 'strict',
-    });
-  }
