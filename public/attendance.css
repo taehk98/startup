@@ -51,6 +51,10 @@ ul .nav-item {
     color: rgb(69, 69, 69);
 }
 
+.system-event {
+    color: rgb(6, 32, 119);
+}
+
 .navbar-nav {
     flex: 1;
     display: flex;

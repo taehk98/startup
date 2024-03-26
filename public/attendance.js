@@ -1,9 +1,17 @@
+const EndVotingEvent = 'endVoting';
+const SaveActualAttdEvent = 'saveActual';
+const WillAttEvent = 'willAttEvent';
+const WillNotAttEvent = 'willNotAttEvent';
+const WasPresentEvent = 'wasPresentEvent';
+const WasNotPresentEvent = 'wasNotPresentEvent';
+
 class Attandance {
     currAttendList;
     currAbsentList;
     endVotingButton; 
     saveActualButton; 
     saveActual;
+    socket;
 
     constructor() {
         const userNameEl = document.querySelector('.user-name');
@@ -31,6 +39,8 @@ class Attandance {
         this.saveActualButton.addEventListener('click', this.saveActualVoting.bind(this));
 
         window.addEventListener('resize', hideUserDivOnMobile);
+
+        this.configureWebSocket();
     }
 
     async handlePresentCheck() {
@@ -116,17 +126,33 @@ class Attandance {
     }
     
     async checkedAttend() {
+        const userName = this.getUserName();
+        const userEmail = this.getUserEmail();
         await this.saveAttend(true);
         // await this.loadLists();
-            this.updateName(true);
+        this.updateName(true, userName);
+        if(this.saveActual){
+            this.broadcastEvent(userName, userEmail, WasPresentEvent);
+        }
+        else {
+            this.broadcastEvent(userName, userEmail, WillAttEvent);
+        }
     }
        
         
 
     async checkedAbsent() {
+        const userName = this.getUserName();
+        const userEmail = this.getUserEmail();
         await this.saveAttend(false);
         // await this.loadLists();
-        this.updateName(false);
+        this.updateName(false, userName);
+        if(this.saveActual){
+            this.broadcastEvent(userName, userEmail, WasNotPresentEvent);
+        }
+        else {
+        this.broadcastEvent(userName, userEmail, WillNotAttEvent);
+        }
     }
 
     async saveAttend(att) {
@@ -135,13 +161,13 @@ class Attandance {
         let attendances = await this.loadAttendances();
 
         let currObj = attendances.filter(obj => obj.name === userName)[0];
-        await this.updateAttendances(userName, clubName, att, currObj, attendances);
+        await this.updateAttendances(userName, clubName, att, currObj);
     }
 
 
 
     // 아마 현재 참석 횟수 , 불참 횟수, 참석하기로하고 불참 횟수 추가해야함
-    async updateAttendances(userName, clubName, att,  currObj , attendances) {
+    async updateAttendances(userName, clubName, att,  currObj) {
         let newAttendance;
         if(this.saveActual){
             newAttendance = {
@@ -171,13 +197,7 @@ class Attandance {
             };
             console.log(newAttendance);
         }
-        // const updatedAttendances = attendances.map(attendance => {
-        //     if (attendance.name === userName && attendance.club === clubName) {
-        //         return newAttendance; 
-        //     } else {
-        //         return attendance; 
-        //     }
-        // });
+
         try {
             const response = await fetch('/api/save-attendance', {
               method: 'POST',
@@ -251,6 +271,8 @@ class Attandance {
         this.endVotingButton.disabled = true;
         this.saveActualButton.disabled = false;
 
+        const userEmail = this.getUserEmail();
+        const userName = this.getUserName();
         let clubMemberObjs = await this.getClubMemberObjs();
         
         const updatedClubMemberObjs = clubMemberObjs.map(member => {
@@ -269,7 +291,9 @@ class Attandance {
               headers: {'content-type': 'application/json'},
               body: JSON.stringify(updatedClubMemberObjs),
             });
-      
+            
+            this.broadcastEvent(userName, userEmail, EndVotingEvent);
+
             // Store what the service gave us as the high scores
             const attendances = await response.json();
             localStorage.setItem('attendances', JSON.stringify(attendances));
@@ -277,6 +301,7 @@ class Attandance {
             // If there was an error then just track scores locally
             localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
           }
+        
         this.loadLists();
     }
 
@@ -291,6 +316,8 @@ class Attandance {
         this.endVotingButton.disabled = false;
         this.saveActualButton.disabled = true;
 
+        const userEmail = this.getUserEmail();
+        const userName = this.getUserName();
         let clubMemberObjs = await this.getClubMemberObjs() ;
         
         const updatedClubMemberObjs = clubMemberObjs.map(member => {
@@ -318,7 +345,8 @@ class Attandance {
               headers: {'content-type': 'application/json'},
               body: JSON.stringify(updatedClubMemberObjs),
             });
-      
+            
+            this.broadcastEvent(userName, userEmail, SaveActualAttdEvent);
             // Store what the service gave us as the high scores
             const attendances = await response.json();
             localStorage.setItem('attendances', JSON.stringify(attendances));
@@ -349,19 +377,19 @@ class Attandance {
         return /^[a-zA-Z]+$/.test(text);
     }
 
-    updateName(att) {
+    updateName(att, userName) {
         const attendList = document.getElementById('attendList');
         const absentList = document.getElementById('absentList');
-        const userName = this.getUserName();
         const nameToRemove = this.truncateName(userName);
         if(att){
             this.currAbsentList = this.currAbsentList.filter(name => name !== userName);
-            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            console.log(listItemToRemove );
+            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')]
+                .find(li => li.textContent.trim() === nameToRemove);
             if (listItemToRemove) {
                 listItemToRemove.remove();
             }
-            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
+            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')]
+                .find(li => li.textContent.trim() === nameToRemove);
             if (ItemToRemove) {
                 ItemToRemove.remove();
             }
@@ -374,12 +402,13 @@ class Attandance {
             this.currAttendList.push(userName);
         } else {
             this.currAttendList = this.currAttendList.filter(name => name !== userName);
-            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
-            console.log(ItemToRemove);
+            const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')]
+                .find(li => li.textContent.trim() === nameToRemove);
             if (ItemToRemove) {
                 ItemToRemove.remove();
             }
-            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')].find(li => li.textContent.trim() === nameToRemove);
+            const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')]
+                .find(li => li.textContent.trim() === nameToRemove);
             if (listItemToRemove) {
                 listItemToRemove.remove();
             }
@@ -444,22 +473,63 @@ class Attandance {
     
         localStorage.setItem('attendances', JSON.stringify(attendances));
     }
+
+    // Functionality for peer communication using WebSocket
+
+    configureWebSocket() {
+        const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+        this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+        this.socket.onopen = (event) => {
+            this.displayMsg('system', 'game', 'connected');
+        };
+        this.socket.onclose = (event) => {
+            this.displayMsg('system', 'game', 'disconnected');
+        };
+        this.socket.onmessage = async (event) => {
+            const msg = JSON.parse(await event.data.text());
+            if (msg.type === WillAttEvent) {
+                this.displayMsg('user', msg.from, `will attend`);
+            } else if (msg.type === WillNotAttEvent) {
+                this.displayMsg('user', msg.from, `will attend`);
+            } else if (msg.type === EndVotingEvent) {
+                this.displayMsg('system', msg.from, 'clicked end voting');
+            } else if (msg.type === SaveActualAttdEvent) {
+                this.displayMsg('system', msg.from, `clicked the save actual button`);
+            }
+            this.loadLists();
+        };
+    }
+
+    displayMsg(cls, from, msg) {
+        const chatText = document.querySelector('#user-messages');
+        chatText.innerHTML =
+          `<div class="event"><span class="${cls}-event">${from}</span> ${msg}</div>` + chatText.innerHTML;
+    }
+  
+    broadcastEvent(from, email, type) {
+        const event = {
+          from: from,
+          email: email,
+          type: type,
+        };
+        this.socket.send(JSON.stringify(event));
+      }
 }   
 
 const att = new Attandance();
 
-setInterval(() => {
-    const willAttend = Math.random() > 0.5;
-    const chatText = document.querySelector('#user-messages');
-    if(willAttend) {
-        chatText.innerHTML =
-        `<div class="event"><span class="user-event">Kim</span> Will Attend</div>` 
-        + chatText.innerHTML;
-    }else {
-        chatText.innerHTML =
-        `<div class="event"><span class="user-event">Kim</span> Will Not Attend</div>` 
-        + chatText.innerHTML;
-    }}, 5000);
+// setInterval(() => {
+//     const willAttend = Math.random() > 0.5;
+//     const chatText = document.querySelector('#user-messages');
+//     if(willAttend) {
+//         chatText.innerHTML =
+//         `<div class="event"><span class="user-event">Kim</span> Will Attend</div>` 
+//         + chatText.innerHTML;
+//     }else {
+//         chatText.innerHTML =
+//         `<div class="event"><span class="user-event">Kim</span> Will Not Attend</div>` 
+//         + chatText.innerHTML;
+//     }}, 5000);
     
 function isMobile() {
     return window.innerWidth <= 800; // 예시로 768px 이하를 모바일로 간주
@@ -473,3 +543,4 @@ function hideUserDivOnMobile() {
         usersDiv.style.display = 'block'; // 유저 디브 보임
     }
 }
+

@@ -9,6 +9,7 @@ const cors = require('cors');
 const axios = require("axios");
 const path = require("path");
 const apiKey = require('./apiKey.json'); // 여기에 API 인증 키를 넣어주세요
+const { peerProxy } = require('./peerProxy.js');
 const app = express();
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -39,8 +40,15 @@ app.use(express.static('public'));
 
 app.use(cors());
 
+// Trust headers that are forwarded from the proxy so we can determine IP addresses
+app.set('trust proxy', true);
+
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
+
+app.use(function (err, req, res, next) {
+    res.status(500).send({ type: err.name, message: err.message });
+  });
 
 
 
@@ -109,12 +117,14 @@ if (user) {
 }
 });
 
+//used for one attendance change
 secureApiRouter.post('/save-attendance', async (req, res) => {
     await updateAttendances(req.body, attendances);
     attendances = await initialClubAttds(req.body.club, attendances);
     res.send(attendances);
 })
 
+// used for 
 secureApiRouter.post('/replace-attendances', async (req, res) => {
     attendances = await replaceAttentances(req.body, attendances);
     attendances = await initialClubAttds(req.body.club, attendances);
@@ -136,10 +146,11 @@ app.use((_req, res) => {
     res.sendFile('index.html', { root: 'public' });
   });
 
-app.listen(port, () => {
+const httpService = app.listen(port, () => {
     console.log(`Listening on port ${port}`);
   });
 
+peerProxy(httpService);
 
 async function updateAttendances(newAttendance, attendances) {
     let dbUser = await collection.findOne({email:newAttendance.email});
