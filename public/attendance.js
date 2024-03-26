@@ -151,7 +151,7 @@ class Attandance {
             this.broadcastEvent(userName, userEmail, WasNotPresentEvent);
         }
         else {
-        this.broadcastEvent(userName, userEmail, WillNotAttEvent);
+            this.broadcastEvent(userName, userEmail, WillNotAttEvent);
         }
     }
 
@@ -261,16 +261,7 @@ class Attandance {
     }
 
     async endVoting () {
-        this.saveActual = true;
-        const PresentTxtEl = document.getElementById("Present-text");
-        PresentTxtEl.textContent = "Was Present";
-        PresentTxtEl.style.paddingLeft = "15.76px";
-        PresentTxtEl.style.paddingRight = "15.76px";
-        const NotPresentTxtEl = document.getElementById("NotPresent-text");
-        NotPresentTxtEl.textContent = "Was Not Present";
-        this.endVotingButton.disabled = true;
-        this.saveActualButton.disabled = false;
-
+        await this.toggleCheckBoxTexts();
         const userEmail = this.getUserEmail();
         const userName = this.getUserName();
         let clubMemberObjs = await this.getClubMemberObjs();
@@ -305,17 +296,31 @@ class Attandance {
         this.loadLists();
     }
 
-    async saveActualVoting() {
-        this.saveActual = false;
+    async toggleCheckBoxTexts() {
         const PresentTxtEl = document.getElementById("Present-text");
-        PresentTxtEl.textContent = "Will Present";
-        PresentTxtEl.style.paddingLeft = "13.465px";
-        PresentTxtEl.style.paddingRight = "13.465px";
         const NotPresentTxtEl = document.getElementById("NotPresent-text");
-        NotPresentTxtEl.textContent = "Will Not Present";
-        this.endVotingButton.disabled = false;
-        this.saveActualButton.disabled = true;
+        if(this.saveActual) {
+            PresentTxtEl.textContent = "Will Present";
+            PresentTxtEl.style.paddingLeft = "13.465px";
+            PresentTxtEl.style.paddingRight = "13.465px";
+            NotPresentTxtEl.textContent = "Will Not Present";
+            this.endVotingButton.disabled = false;
+            this.saveActualButton.disabled = true;
+            this.saveActual = false;
+        }else {
+            PresentTxtEl.textContent = "Was Present";
+            PresentTxtEl.style.paddingLeft = "15.76px";
+            PresentTxtEl.style.paddingRight = "15.76px";
+            NotPresentTxtEl.textContent = "Was Not Present";
+            this.endVotingButton.disabled = true;
+            this.saveActualButton.disabled = false;
+            this.saveActual = true;
+        }
+        
+    }
 
+    async saveActualVoting() {
+        await this.toggleCheckBoxTexts();
         const userEmail = this.getUserEmail();
         const userName = this.getUserName();
         let clubMemberObjs = await this.getClubMemberObjs() ;
@@ -490,11 +495,17 @@ class Attandance {
             if (msg.type === WillAttEvent) {
                 this.displayMsg('user', msg.from, `will attend`);
             } else if (msg.type === WillNotAttEvent) {
-                this.displayMsg('user', msg.from, `will attend`);
+                this.displayMsg('user', msg.from, `will not attend`);
+            } else if (msg.type === WasPresentEvent) {
+                this.displayMsg('user', msg.from, `was present`);
+            } else if (msg.type === WasNotPresentEvent) {
+                this.displayMsg('user', msg.from, `was not present`);
             } else if (msg.type === EndVotingEvent) {
                 this.displayMsg('system', msg.from, 'clicked end voting');
+                this.toggleCheckBoxTexts();
             } else if (msg.type === SaveActualAttdEvent) {
                 this.displayMsg('system', msg.from, `clicked the save actual button`);
+                this.toggleCheckBoxTexts();
             }
             this.loadLists();
         };
@@ -505,7 +516,7 @@ class Attandance {
         chatText.innerHTML =
           `<div class="event"><span class="${cls}-event">${from}</span> ${msg}</div>` + chatText.innerHTML;
     }
-  
+    
     broadcastEvent(from, email, type) {
         const event = {
           from: from,
@@ -514,9 +525,11 @@ class Attandance {
         };
         this.socket.send(JSON.stringify(event));
       }
+    
 }   
 
 const att = new Attandance();
+
 
 // setInterval(() => {
 //     const willAttend = Math.random() > 0.5;
@@ -543,4 +556,3 @@ function hideUserDivOnMobile() {
         usersDiv.style.display = 'block'; // 유저 디브 보임
     }
 }
-

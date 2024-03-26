@@ -49,9 +49,9 @@ class Matches {
     extractData(PL) {
         const date = new Date();
         const today = date.toISOString().slice(0, 10);
-        date.setDate(date.getDate() - 7); // 3일 전 날짜 계산
+        date.setDate(date.getDate() - 7); 
         const dateFrom = date.toISOString().slice(0, 10);
-        date.setDate(date.getDate() + 7); // 4일 후 날짜 계산
+        date.setDate(date.getDate() + 14); 
         const dateTo = date.toISOString().slice(0, 10);
         // 테이블 요소 가져오기
         const table = document.getElementById('scores');
