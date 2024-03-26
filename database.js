@@ -19,8 +19,6 @@ const userCollection = db.collection('user');
     process.exit(1);
   });
 
-
-
 async function initialClubAttds(club, attendances) {
     try {
         const documents = await collection.find({'club': club}).toArray();
@@ -72,6 +70,7 @@ async function createUser(email, password, name, club) {
     return user;
   }
 
+  // updates one attendance
 async function updateAttendances(newAttendance, attendances) {
     let dbUser = await collection.findOne({email:newAttendance.email});
             await collection.replaceOne(
@@ -83,6 +82,7 @@ async function updateAttendances(newAttendance, attendances) {
     return attendances;
 }
 
+// updates many attendances at once
 async function replaceAttentances(newAttendances, attendances) {
     for(let i = 0; i < newAttendances.length; i++) {
         let dbUser = await collection.findOne({email: newAttendances[i].email});
@@ -110,7 +110,7 @@ async function replaceAttentances(newAttendances, attendances) {
     return attendances;
 }
 
-  module.exports = {
+module.exports = {
     getUser,
     getUserByToken,
     createUser,
@@ -118,4 +118,4 @@ async function replaceAttentances(newAttendances, attendances) {
     updateAttendances,
     replaceAttentances,
     getAttendance
-  };
+};
