@@ -129,8 +129,8 @@ class Attandance {
         const userName = this.getUserName();
         const userEmail = this.getUserEmail();
         await this.saveAttend(true);
-        // await this.loadLists();
-        this.updateName(true, userName);
+        await this.loadLists();
+        // this.updateName(true, userName);
         if(this.saveActual){
             this.broadcastEvent(userName, userEmail, WasPresentEvent);
         }
@@ -145,8 +145,8 @@ class Attandance {
         const userName = this.getUserName();
         const userEmail = this.getUserEmail();
         await this.saveAttend(false);
-        // await this.loadLists();
-        this.updateName(false, userName);
+        await this.loadLists();
+        // this.updateName(false, userName);
         if(this.saveActual){
             this.broadcastEvent(userName, userEmail, WasNotPresentEvent);
         }
