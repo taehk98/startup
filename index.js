@@ -2,9 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-// const { MongoClient } = require('mongodb');
-// const { ObjectId } = require('mongodb');
-// const config = require('./dbConfig.json');
 const DB = require('./database.js');
 const cors = require('cors');
 const axios = require("axios");
@@ -16,7 +13,6 @@ const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 const authCookieName = 'token';
 let attendances = [];
-
 
 
 app.use(express.json());
@@ -37,8 +33,6 @@ app.use(`/api`, apiRouter);
 app.use(function (err, req, res, next) {
     res.status(500).send({ type: err.name, message: err.message });
   });
-
-
 
 app.get('/soccer-results', async (req, res) => {
     try {
@@ -89,7 +83,6 @@ apiRouter.delete('/auth/logout', (_req, res) => {
     res.clearCookie(authCookieName);
     res.status(204).end();
 });
-
 
 // secureApiRouter verifies credentials for endpoints
 var secureApiRouter = express.Router();
@@ -166,7 +159,9 @@ function setAuthCookie(res, authToken) {
 
 
 
-
+// const { MongoClient } = require('mongodb');
+// const { ObjectId } = require('mongodb');
+// const config = require('./dbConfig.json');
 // on line 20
 // // connecting mongodb
 // const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
