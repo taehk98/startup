@@ -13,3 +13,5 @@ Not sure if I need one more html page just for managers. I think I don't need on
 Created Css files for the four html pages. (2/14/2024)
 
 Created MongdoDB account and uses it for this project. (3/23/2024)
+
+Made websocket connection and now users votes and activities, such as clicking buttons, display in realtime. ( 3/26/2024 )
