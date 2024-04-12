@@ -3,24 +3,36 @@ import './matches.css';
 
 export function Matches() {
     const [error, setError] = useState(null);
-
+    const [PLData, setPLData] = useState([]);
+    // useEffect(() => {
+    //     displaySoccerResults();
+    // }, []);
     useEffect(() => {
-        displaySoccerResults();
-    }, []);
-
-    async function displaySoccerResults() {
         try {
-            const response = await fetch(`/soccer-results`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            console.log(data);
-            extractData(data);
+            fetch(`/soccer-results`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setPLData(data);
+            })
+            
+            .catch(error => {
+                setError(error);
+            });
         } catch (error) {
             setError(error);
         }
-    }
+    }, []);
+
+    useEffect(() => {
+        if(PLData) {
+            extractData(PLData);
+        }
+    }, [PLData]);
 
     function extractData(PL) {
         const date = new Date();

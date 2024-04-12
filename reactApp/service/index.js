@@ -42,6 +42,7 @@ app.get('/soccer-results', async (req, res) => {
             }
         });
         res.json(response.data);
+        // res.send(response.data);
     } catch (error) {
         console.error('Error fetching soccer results:', error);
         res.status(500).json({ error: 'Failed to fetch soccer results' });
