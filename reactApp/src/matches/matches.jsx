@@ -1,52 +1,28 @@
+import React, { useEffect, useState } from 'react';
+import './matches.css';
 
+export function Matches() {
+    const [error, setError] = useState(null);
 
-class Matches {
-    
-    constructor() {
-        const userNameEl = document.querySelector('.user-name');
-        let userName = this.getUserName();
-        let truncatedName = this.truncateName(userName);
-        userNameEl.textContent = truncatedName;
-        const clubNameEl = document.querySelector('.club-name');
-        clubNameEl.textContent = this.getClubName().toUpperCase();
-    }
+    useEffect(() => {
+        displaySoccerResults();
+    }, []);
 
-    getUserName() {
-        return localStorage.getItem('userName') ?? 'Mystery User';
-    }
-
-    getClubName() {
-        return localStorage.getItem('clubName') ?? 'Mystery Club';
-    }
-
-    getUserID() {
-        return localStorage.getItem('userID') ?? 'Mystery UserID';
-    }
-    
-
-    truncateName(name) {
-        let firstWord = name;
-        if(this.isEnglish(name) && name.length > 15){
-            const words = name.split(' '); // 이름을 빈칸을 기준으로 나눔
-            firstWord = words[0]; // 맨 앞에 있는 단어 저장
-            if (firstWord.length > 15) { // 단어가 15자 이상인 경우
-                firstWord = firstWord.slice(0, 10) + '...'; // 첫 10자만 유지하고 나머지는 생략
+    async function displaySoccerResults() {
+        try {
+            const response = await fetch(`/soccer-results`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            const data = await response.json();
+            console.log(data);
+            extractData(data);
+        } catch (error) {
+            setError(error);
         }
-        return firstWord; 
     }
 
-    isEnglish(text) {
-        return /^[a-zA-Z]+$/.test(text);
-    }
-
-    getDateFromUTCString(utcString) {
-        // UTC 문자열에서 날짜 부분만 추출합니다.
-        const datePart = utcString.slice(0, 10);
-        return datePart;
-    }
-    
-    extractData(PL) {
+    function extractData(PL) {
         const date = new Date();
         const today = date.toISOString().slice(0, 10);
         date.setDate(date.getDate() - 7); 
@@ -58,7 +34,7 @@ class Matches {
     
         // 7일 동안의 경기 정보를 테이블에 추가
         for (let i = 260; i < PL.matches.length; i++) {
-            const matchDate = this.getDateFromUTCString(PL.matches[i].utcDate);
+            const matchDate = getDateFromUTCString(PL.matches[i].utcDate);
             if (matchDate >= dateFrom && matchDate <= dateTo) {
                 const homeScore = PL.matches[i].score.fullTime.home;
                 const awayScore = PL.matches[i].score.fullTime.away;
@@ -74,7 +50,7 @@ class Matches {
                     const matchInfo = `${matchDate} ${formattedHours}:${formattedMinutes}-${homeTeam}-${awayTeam}-${homeScore}-${awayScore}`;
     
                     // 이미 추가된 경기인지 확인
-                    if (!this.isMatchAlreadyAdded(table, matchInfo)) {
+                    if (!isMatchAlreadyAdded(table, matchInfo)) {
                         // 중복된 경기가 없는 경우 테이블에 추가
                         const row = table.insertRow();
                         const cell1 = row.insertCell();
@@ -99,21 +75,8 @@ class Matches {
             }
         }
     }
-    async displaySoccerResults() {
-        try {
-            const response = await fetch(`/soccer-results`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            this.extractData(data);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        }
-    }
-    
-    
-    isMatchAlreadyAdded(table, matchInfo) {
+
+    function isMatchAlreadyAdded(table, matchInfo) {
         // 테이블의 모든 행을 확인하여 중복된 정보가 있는지 검사
         for (let i = 1; i < table.rows.length; i++) {
             const row = table.rows[i];
@@ -124,10 +87,36 @@ class Matches {
         }
         return false; // 중복된 정보가 없으면 false 반환
     }
+
+    function getDateFromUTCString(utcString) {
+        // UTC 문자열에서 날짜 부분만 추출합니다.
+        const datePart = utcString.slice(0, 10);
+        return datePart;
+    }
+
+    return (
+        <main>
+            {error && (
+                <div className="error">
+                    There was a problem with the fetch operation: {error.message}
+                </div>
+            )}
+            <table id="scores" className="matches">
+                <thead className="scoresheader">
+                    <tr>
+                        <th>Date/Status</th>
+                        <th>Opponents</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* 여기에 데이터가 들어갈 부분 */}
+                </tbody>
+            </table>   
+            <div className="p">
+                I always believe in myself. Even when things are tough, I work hard and try to improve every day. 
+                <p>- Son Heung Min</p>
+            </div>
+    </main>
+    );
 }
-
-const PL = new Matches();
-PL.displaySoccerResults()
-
-
-

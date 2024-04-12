@@ -3,6 +3,7 @@ import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Attendance } from './attendance/attendance';
 import { Report } from './report/report';
+import { Matches } from './matches/matches';
 import { AuthState } from './login/authState';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
@@ -42,11 +43,11 @@ function App() {
                 </NavLink>
               </li>
             )}
-            {/* <li className='nav-item'>
-              <NavLink className='nav-link' to='match'>
+            <li className='nav-item'>
+              <NavLink className='nav-link' to='matches'>
                 PL-Match
               </NavLink>
-            </li> */}
+            </li>
           </ul>
             {authState === AuthState.Authenticated && (
             <div className="navbar-text">
@@ -77,7 +78,7 @@ function App() {
         />
         <Route path='/attendance' element={<Attendance userName={userName} clubName={clubName} userEmail={userEmail} />} />
         <Route path='/report' element={<Report userEmail={userEmail}/>} />
-        {/* <Route path='/about' element={<About />} /> */}
+        <Route path='/matches' element={<Matches />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
 

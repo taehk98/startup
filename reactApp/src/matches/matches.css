@@ -1,0 +1,42 @@
+.matches {
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    padding-top: 10px;
+}
+
+.matches th, .matches td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.matches th {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+.matches tr:nth-child(even) {
+    background-color: #e3f2fd;
+}
+
+.matches tr:hover {
+    background-color: #ddd;
+}
+
+#sccoerpitch {
+    padding-top: 3vh;
+    display: flex;
+    justify-content: center;
+}
+
+p {
+    padding-top: 3vh;
+    text-align: center;
+}
+
+.p {
+    padding-top: 3vh;
+    text-align: center;
+}
