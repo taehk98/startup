@@ -1,0 +1,52 @@
+.table-container {
+    max-height: 230px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+/* 커스텀 스크롤바 스타일 */
+.table-container::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    background-color: transparent; 
+}
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #e3f2fd;
+    border-radius: 10px; /* 스크롤바 모양 */
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(6, 32, 119);
+}
+
+#fakeAttendeesText {
+    font-weight: bold;
+    padding-bottom: 1vh;
+}
+
+#attdRateText {
+    font-weight: bold;
+    padding-bottom: 1vh;
+}
+
+#fakeAttendees, #attdRate {
+    text-align: center;
+}
+
+main {
+    display: grid;
+    padding: 3vh
+}
+
+table {
+    border-collapse: collapse; /* 테이블 셀의 테두리를 합칩니다. */
+    margin: 0 auto; 
+}
+  
+th, td {
+    border: 1px solid black !important; /* 테두리에 선을 추가합니다. */
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    color: black;
+    text-align: center;
+    background-color: #e3f2fd;
+    
+}

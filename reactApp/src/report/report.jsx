@@ -1,31 +1,41 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import './report.css';
 
-export function Report() {
-    const [attendances, setAttendances] = React.useState([]);
+export function Report({ userEmail }) {
+    const [attendances, setAttendances] = useState([]);
 
     // Demonstrates calling a service asynchronously so that
     // React can properly update state objects with the results.
-    React.useEffect(() => {
-        fetch('/api/attendances', {
-            method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify(email)})
-            .then((response) => response.json())
-            .then((attendances) => {
-                setAttendances(attendances);
-                localStorage.setItem('attendances', JSON.stringify(attendances));
-                initializeTable('fakeAttTb');
-                initializeTable('attRateTb');
-            })
-            .catch(() => {
-                const attendanceText = localStorage.getItem('attendances');
+    useEffect(() => {
+        fetchData();
+    }, []);
+    async function fetchData() {
+        try {
+            const response = await fetch('/api/attendances', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ email: userEmail }),
+            });
+            const newAttendances = await response.json();
+            // console.log(newAttendances);
+            setAttendances(newAttendances);
+            // console.log(attendances);
+            localStorage.setItem('attendances', JSON.stringify(newAttendances));
+            
+        } catch (error) {   
+            const attendanceText = localStorage.getItem('attendances');
                 if (attendanceText) {
                 setAttendances(JSON.parse(attendanceText));
-                }
-            });
-    }, []);
+            }
+        }
+    }
+
+    useEffect(() => {
+        if(attendances) {
+            initializeTable('fakeAttTb');
+            initializeTable('attRateTb');
+        }
+    }, [attendances]);
 
     function initializeTable(tableName) {
         let table = document.getElementById(tableName);
@@ -42,19 +52,20 @@ export function Report() {
     
     async function populateFakeAttTable () {
         let clubMemberObjs = attendances;
+        // console.log(clubMemberObjs);
         clubMemberObjs.forEach((data, index) => {
-            this.addRow(index + 1, data, 'fakeAttTb');
+            addRow(index + 1, data, 'fakeAttTb');
         });
     }
 
     async function populateAttRateTable() {
         let clubMemberObjs = attendances;
         clubMemberObjs.forEach((data, index) => {
-            this.addRow(index + 1, data, 'attRateTb');
+            addRow(index + 1, data, 'attRateTb');
         });
     }
 
-    function addRow(index, data, tableName) {
+    async function addRow(index, data, tableName) {
         let table = document.getElementById(tableName);
         let tbody = table.querySelector("tbody");
         if (!tbody) {
@@ -112,6 +123,9 @@ export function Report() {
                     <table id="fakeAttTb">
                         <thead>
                             <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,7 +149,7 @@ export function Report() {
                     Attendance rate for each member
                 </div>
                 <div className="table-container">
-                    <table id = "attRateTb" class="scrollable-list">
+                    <table id = "attRateTb" className="scrollable-list">
                         <thead>
                             <tr>
                                 <th>#</th>

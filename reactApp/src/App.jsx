@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Attendance } from './attendance/attendance';
+import { Report } from './report/report';
 import { AuthState } from './login/authState';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
@@ -34,14 +35,14 @@ function App() {
                 </NavLink>
               </li>
             )}
-            {/* {authState === AuthState.Authenticated && (
+            {authState === AuthState.Authenticated && (
               <li className='nav-item'>
                 <NavLink className='nav-link' to='report'>
                   Report
                 </NavLink>
               </li>
             )}
-            <li className='nav-item'>
+            {/* <li className='nav-item'>
               <NavLink className='nav-link' to='match'>
                 PL-Match
               </NavLink>
@@ -75,8 +76,8 @@ function App() {
           exact
         />
         <Route path='/attendance' element={<Attendance userName={userName} clubName={clubName} userEmail={userEmail} />} />
-        {/* <Route path='/scores' element={<Scores />} />
-        <Route path='/about' element={<About />} /> */}
+        <Route path='/report' element={<Report userEmail={userEmail}/>} />
+        {/* <Route path='/about' element={<About />} /> */}
         <Route path='*' element={<NotFound />} />
       </Routes>
 

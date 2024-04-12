@@ -423,6 +423,7 @@ export function AttdCol(props) {
           }
         // this.loadLists();
         toggleCheckBoxTexts();
+        setUpdatedNotif(!updated);
         const presentCheckbox = document.getElementById('Present');
         const absentCheckbox = document.getElementById('notPresent');
         absentCheckbox.checked = true;
