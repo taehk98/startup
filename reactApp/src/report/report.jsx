@@ -2,8 +2,7 @@ import React from 'react';
 
 import './report.css';
 
-export function Report(props) {
-    const { userName, clubName, userEmail } = props;
+export function Report() {
     const [attendances, setAttendances] = React.useState([]);
 
     // Demonstrates calling a service asynchronously so that
@@ -17,6 +16,8 @@ export function Report(props) {
             .then((attendances) => {
                 setAttendances(attendances);
                 localStorage.setItem('attendances', JSON.stringify(attendances));
+                initializeTable('fakeAttTb');
+                initializeTable('attRateTb');
             })
             .catch(() => {
                 const attendanceText = localStorage.getItem('attendances');
@@ -100,26 +101,6 @@ export function Report(props) {
     function isEnglish(text) {
         return /^[a-zA-Z]+$/.test(text);
     }
-    // Demonstrates rendering an array with React
-    const scoreRows = [];
-    if (scores.length) {
-        for (const [i, score] of scores.entries()) {
-        scoreRows.push(
-            <tr key={i}>
-            <td>{i}</td>
-            <td>{score.name.split('@')[0]}</td>
-            <td>{score.score}</td>
-            <td>{score.date}</td>
-            </tr>
-        );
-        }
-    } else {
-        scoreRows.push(
-        <tr key='0'>
-            <td colSpan='4'>Be the first to score</td>
-        </tr>
-        );
-    }
 
     return (
         <main>
@@ -127,7 +108,7 @@ export function Report(props) {
                 <div id="fakeAttendeesText">
                     People who voted for present but did not actually attended
                 </div>
-                <div class="table-container">
+                <div className="table-container">
                     <table id="fakeAttTb">
                         <thead>
                             <tr>
@@ -153,7 +134,7 @@ export function Report(props) {
                 <div id="attdRateText">
                     Attendance rate for each member
                 </div>
-                <div class="table-container">
+                <div className="table-container">
                     <table id = "attRateTb" class="scrollable-list">
                         <thead>
                             <tr>
@@ -178,8 +159,7 @@ export function Report(props) {
                             </tr>
                         </tbody>    
                     </table>
-                </div>
-                    
+                </div>  
             </div>
         </main>
     );
