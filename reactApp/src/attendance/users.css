@@ -1,0 +1,29 @@
+#user-messages {
+    padding-top: 0.25em;
+    opacity: 0.7;
+}
+
+.event {
+    color: rgb(165, 220, 235);
+  }
+
+.user-event {
+    color: rgb(69, 69, 69);
+}
+
+.system-event {
+    color: rgb(6, 32, 119);
+}
+
+.users {
+    display: flex;
+    justify-content:flex-start;
+    position: absolute;
+    max-width: 350px;
+    max-height: 20em; /* 일정 높이 이상이 되면 스크롤로 표시 */
+    overflow-y: auto; /* 세로 스크롤을 사용하도록 설정 */
+}
+
+.user-name {
+    padding-right: 1em;
+}

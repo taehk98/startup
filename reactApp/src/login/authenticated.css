@@ -1,0 +1,21 @@
+.playerName {
+    color: rgb(118, 190, 210);
+    font-size: 1.5em;
+    padding: 0.5em;
+    text-align:center;
+  }
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+.btn.btn-primary{
+    border:1px solid #bedaee;
+    background-color: #e3f2fd;
+    width: 162px !important;
+    font-size: small;
+    margin-left:5px;
+    margin-right:5px;
+    color: rgb(6, 32, 119);
+}
