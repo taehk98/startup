@@ -30,6 +30,16 @@ export function Users(props) {
     };
   }, []);
 
+  // if window is mobile size, hide this messages.
+  useEffect(() => {
+    const usersDiv = document.querySelector('.users');
+    if (isMobile) {
+      usersDiv.style.display = 'none'; // 모바일이면 숨김
+    } else {
+      usersDiv.style.display = 'block'; // 모바일이 아니면 보임
+    }
+  }, [isMobile]);
+
   function handleGameEvent(event) {
     setEvent([...events, event]);
   }
@@ -39,17 +49,17 @@ export function Users(props) {
     for (const [i, event] of events.entries()) {
       let message = 'unknown';
       if (event.type === GameEvent.WillAttEvent) {
-        message = `${event.from} will attend`;
+        message = `will attend`;
       } else if (event.type === GameEvent.WillNotAttEvent) {
-        message = `${event.from} will not attend`;
+        message = `will not attend`;
       } else if (event.type === GameEvent.WillNotAttEvent) {
-        message = `${event.from} will not attend`;
+        message = `will not attend`;
       } else if (event.type === GameEvent.WasPresentEvent) {
-        message = `${event.from} was present`;
+        message = `was present`;
       } else if (event.type === GameEvent.WasNotPresentEvent) {
-        message = `${event.from} was not present`;
+        message = `was not present`;
       } else if (event.type === GameEvent.SaveActualAttdEvent) {
-        message = `${event.from} clicked the save actual button`;
+        message = `clicked the save actual button`;
       } else if (event.type === GameEvent.System) {
         message = '';
       }

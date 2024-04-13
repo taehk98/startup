@@ -1,0 +1,5 @@
+apiKey.json
+dbConfig.json
+.vscode/
+.DS_Store
+node_modules/
