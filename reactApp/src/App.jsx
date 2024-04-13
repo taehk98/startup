@@ -7,6 +7,7 @@ import { Matches } from './matches/matches';
 import { AuthState } from './login/authState';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import { useEffect } from 'react';
 
 function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -14,6 +15,22 @@ function App() {
   const [userEmail, setUserEmail] = React.useState(localStorage.getItem('userEmail') || '');
   const currentAuthState = userEmail ? AuthState.Authenticated : AuthState.Unauthenticated;
   const [authState, setAuthState] = React.useState(currentAuthState);
+
+  useEffect(() => {
+    // 로컬스토리지 변경 이벤트 구독
+    const handleStorageChange = () => {
+        setUserName(localStorage.getItem('userName') || '');
+        setClubName(localStorage.getItem('clubName') || '');
+        setUserEmail(localStorage.getItem('userEmail') || '');
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 해제
+    return () => {
+        window.removeEventListener('storage', handleStorageChange);
+    };
+}, []);
 
   return (
     <BrowserRouter>

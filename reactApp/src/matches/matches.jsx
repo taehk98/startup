@@ -3,43 +3,33 @@ import './matches.css';
 
 export function Matches() {
     const [error, setError] = useState(null);
-    const [PLData, setPLData] = useState([]);
-    // useEffect(() => {
-    //     displaySoccerResults();
-    // }, []);
+
     useEffect(() => {
-        try {
-            fetch(`/soccer-results`)
-            .then(response => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/soccer-results', {
+                    method: 'POST',
+                    headers: { 'content-type': 'application/json' },
+                });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(data => {
-                setPLData(data);
-            })
-            
-            .catch(error => {
+                const data = await response.json();
+                extractData(data);
+            } catch (error) {
                 setError(error);
-            });
-        } catch (error) {
-            setError(error);
-        }
-    }, []);
+            }
+        };
+        fetchData();
 
-    useEffect(() => {
-        if(PLData) {
-            extractData(PLData);
-        }
-    }, [PLData]);
+    }, []);
 
     function extractData(PL) {
         const date = new Date();
         const today = date.toISOString().slice(0, 10);
-        date.setDate(date.getDate() - 7); 
+        date.setDate(date.getDate() - 3); 
         const dateFrom = date.toISOString().slice(0, 10);
-        date.setDate(date.getDate() + 14); 
+        date.setDate(date.getDate() + 8); 
         const dateTo = date.toISOString().slice(0, 10);
         // 테이블 요소 가져오기
         const table = document.getElementById('scores');
@@ -121,9 +111,6 @@ export function Matches() {
                         <th>Score</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {/* 여기에 데이터가 들어갈 부분 */}
-                </tbody>
             </table>   
             <div className="p">
                 I always believe in myself. Even when things are tough, I work hard and try to improve every day. 

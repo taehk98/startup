@@ -13,11 +13,6 @@ export function AttdCol(props) {
     const [endVotingDisabled, setEndVotingDisabled] = useState(false);
     const [saveActualDisabled, setSaveActualDisabled] = useState(true);
     const [updated, setUpdatedNotif] = useState(false);
-        
-        // this.currAttendList = [];
-        // this.currAbsentList = [];
-        // this.saveActual = false;
-        // this.loadLists();
     
     useEffect(() => {
         fetchData();
@@ -38,7 +33,6 @@ export function AttdCol(props) {
                 .filter(member => (saveActual ? !member.actualAtt : !member.willAttend))
                 .map(member => member.name);
 
-            console.log(data);
             localStorage.setItem('attendances', JSON.stringify(data));
             setCurrAttendList(newAttendList);
             setCurrAbsentList(newAbsentList);
@@ -47,49 +41,6 @@ export function AttdCol(props) {
         }
     }
 
-    // async function loadAttendances() {
-    //     let attendances = [];
-    //     const email = {
-    //         email: userEmail
-    //     }
-    //     try {
-    //         const response = await fetch('/api/attendances', {
-    //             method: 'POST',
-    //             headers: {'content-type': 'application/json'},
-    //             body: JSON.stringify(email),
-    //         });
-    //       // Get the latest high scores from the service
-
-    //       attendances = await response.json();
-      
-    //       // Save the scores in case we go offline in the future
-    //       localStorage.setItem('attendances', JSON.stringify(attendances));
-    //     } catch {
-    //       // If there was an error then just use the last saved scores
-    //       const attendancesText = localStorage.getItem('attendances');
-    //       if (attendancesText) {
-    //         attendances = JSON.parse(attendancesText);
-    //       }
-    //     }
-    //     setClubMemberObjs(attendances);
-    // }
-
-
-        // const presentCheckbox = document.getElementById('Present');
-        // presentCheckbox.addEventListener('click', this.handlePresentCheck.bind(this));
-
-        // const absentCheckbox = document.getElementById('notPresent');
-        // absentCheckbox.addEventListener('click', this.handleAbsentCheck.bind(this));
-
-        // this.endVotingButton = document.getElementById('endButton');
-        // this.endVotingButton.addEventListener('click', this.endVoting.bind(this));
-
-        // this.saveActualButton = document.getElementById('SaveActualButton');
-        // this.saveActualButton.addEventListener('click', this.saveActualVoting.bind(this));
-
-    
-
-
     async function handlePresentCheck() {
         const presentCheckbox = document.getElementById('Present');
         const absentCheckbox = document.getElementById('notPresent');
@@ -97,10 +48,6 @@ export function AttdCol(props) {
         if (presentCheckbox.checked) {
             absentCheckbox.checked = false;
             await checkedAttend();
-        }
-        else {
-            // absentCheckbox.checked = true;
-            // await this.checkedAbsent();
         }
     }
 
@@ -111,59 +58,12 @@ export function AttdCol(props) {
         if (absentCheckbox.checked) {
             presentCheckbox.checked = false;
             await checkedAbsent();
-        }else{
-            // presentCheckbox.checked = true;
-            // await this.checkedAttend();
         }
     }
 
-    // function saveActualRecord() {
-    //     let checkboxElements = document.querySelectorAll("input");
-
-    //     checkboxElements.forEach(function(element){
-    //         if (element.disabled) {
-    //             element.disabled = false;
-    //         }
-    //     });
-    //     toggleCheckBoxTexts();
-    // }
-
-    // function saveVoting() {
-    //     let checkboxElements = document.querySelectorAll("input");
-
-    //     checkboxElements.forEach(function(element){
-    //         if (!element.disabled) {
-    //             element.disabled = true;
-    //         }
-    //     });
-    //     toggleCheckBoxTexts();
-    // }
-
-    // async function getClubMemberObjs() {
-    //     try {
-    //         let attendances = await loadAttendances(); // await 키워드 추가
-    //         const clubName = clubName;
-    //         let newClubMemberObjs = [];
-    
-    //         if (clubName !== 'Mystery Club') {
-    //             if (Array.isArray(attendances)) {
-    //                 newClubMemberObjs = attendances.filter(obj => obj.club === clubName);
-    //             } else {
-    //                 console.log(attendances);
-    //             }
-    //         }
-    //         setClubMemberObjs(newClubMemberObjs);
-    //         // return newClubMemberObjs;
-    //     } catch (error) {
-    //         console.error(error); // 오류 처리
-    //     }
-    // }
-    
-    
     async function checkedAttend() {
         await saveAttend(true);
-        // await this.loadLists();
-        // this.updateName(true, userName);
+
         if(saveActual){
             GameNotifier.broadcastEvent(userName, userEmail, GameEvent.WasPresentEvent);
         }
@@ -171,13 +71,10 @@ export function AttdCol(props) {
             GameNotifier.broadcastEvent(userName, userEmail, GameEvent.WillAttEvent);
         }
     }
-       
-        
 
     async function checkedAbsent() {
         await saveAttend(false);
-        // await this.loadLists();
-        // this.updateName(false, userName);
+
         if(saveActual){
             GameNotifier.broadcastEvent(userName, userEmail, GameEvent.WasNotPresentEvent);
         }
@@ -187,13 +84,10 @@ export function AttdCol(props) {
     }
 
     async function saveAttend(att) {
-        // await loadAttendances();
         let attendances = clubMemberObjs;
         let currObj = attendances.filter(obj => obj.name === userName)[0];
         await updateAttendances(userName, clubName, att, currObj);
     }
-
-
 
     // 아마 현재 참석 횟수 , 불참 횟수, 참석하기로하고 불참 횟수 추가해야함
     async function updateAttendances(userName, clubName, att,  currObj) {
@@ -212,7 +106,6 @@ export function AttdCol(props) {
                 token: currObj.token
             };
         }else{
-            console.log(currObj);
             newAttendance = {
                 name: userName,
                 club: clubName, 
@@ -225,7 +118,6 @@ export function AttdCol(props) {
                 email: currObj.email,
                 token: currObj.token
             };
-            console.log(newAttendance);
         }
 
         try {
@@ -245,87 +137,8 @@ export function AttdCol(props) {
           setUpdatedNotif(!updated);
     }
 
-    // async function loadLists() {
-    //     let clubMemberObjs = await this.loadAttendances();
-    //     if(clubMemberObjs !== null){
-    //         const attendList = document.getElementById('attendList');
-    //         attendList.innerHTML = '';
-
-    //         if(this.saveActual){
-    //             const newAttendList = clubMemberObjs
-    //                 .filter(member => member.actualAtt)
-    //                 .map(member => member.name);
-    //             setCurrAttendList(newAttendList);
-                
-    //             const newAbsentList = clubMemberObjs
-    //                 .filter(member => !member.actualAtt)
-    //                 .map(member => member.name);
-    //             setCurrAbsentList(newAbsentList);
-
-    //         }else {
-    //             const newAttendList = clubMemberObjs
-    //                 .filter(member => member.willAttend)
-    //                 .map(member => member.name);
-    //             setCurrAttendList(newAttendList);
-                
-    //             const newAbsentList = clubMemberObjs
-    //                 .filter(member => !member.willAttend)
-    //                 .map(member => member.name);
-    //             setCurrAbsentList(newAbsentList);
-    //         }
-    //         // Adds items to 'attendList'
-    //         this.currAttendList.forEach(name => {
-    //             const listItem = document.createElement('li');
-    //             let truncatedName = this.truncateName(name);
-    //             listItem.textContent = truncatedName;
-    //             listItem.classList.add('list-group-item');
-    //             attendList.appendChild(listItem);
-    //         })
-
-    //         // Adds items to 'absentList'
-    //         const absentList = document.getElementById('absentList');
-    //         absentList.innerHTML = ''; 
-
-    //         this.currAbsentList.forEach(name => {
-    //             const listItem = document.createElement('li');
-    //             let truncatedName = this.truncateName(name);
-    //             listItem.textContent = truncatedName;
-    //             listItem.classList.add('list-group-item');
-    //             absentList.appendChild(listItem);
-    //         });
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     // 비동기 작업을 수행하는 함수 정의
-    //     const fetchData = async () => {
-    //       try {
-    //         await loadAttendances();
-    //         const newClubMemberObjs = clubMemberObjs // loadAttendances() 함수 호출
-    
-    //         if (clubMemberObjs !== null) {
-    //           const newAttendList = newClubMemberObjs
-    //             .filter(member => (saveActual ? member.actualAtt : member.willAttend))
-    //             .map(member => member.name);
-    //           setCurrAttendList(newAttendList);
-    
-    //           const newAbsentList = newClubMemberObjs
-    //             .filter(member => (saveActual ? !member.actualAtt : !member.willAttend))
-    //             .map(member => member.name);
-    //           setCurrAbsentList(newAbsentList);
-    //         }
-    //       } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //       }
-    //     };
-    
-    //     fetchData(); // fetchData 함수 호출
-    
-    // }, [updated]);
-
     async function endVoting () {
         await toggleCheckBoxTexts();
-        // let clubMemberObjs = await getClubMemberObjs();
         let newClubMemberObjs = clubMemberObjs;
         
         const updatedClubMemberObjs = newClubMemberObjs.map(member => {
@@ -355,7 +168,6 @@ export function AttdCol(props) {
             localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
           }
         toggleCheckBoxTexts();
-        // this.loadLists();
         setUpdatedNotif(!updated);
     }
 
@@ -379,12 +191,10 @@ export function AttdCol(props) {
             setSaveActualDisabled(false);
             setSaveActual(true);
         }
-        
     }
 
     async function saveActualVoting() {
         await toggleCheckBoxTexts();
-        // let clubMemberObjs = await getClubMemberObjs() ;
         let newClubMemberObjs = clubMemberObjs;
         
         const updatedClubMemberObjs = newClubMemberObjs.map(member => {
@@ -421,7 +231,6 @@ export function AttdCol(props) {
             // If there was an error then just track scores locally
             localStorage.setItem('attendances', JSON.stringify(updatedClubMemberObjs));
           }
-        // this.loadLists();
         toggleCheckBoxTexts();
         setUpdatedNotif(!updated);
         const presentCheckbox = document.getElementById('Present');
@@ -446,71 +255,6 @@ export function AttdCol(props) {
     function isEnglish(text) {
         return /^[a-zA-Z]+$/.test(text);
     }
-
-    // function updateName(att, userName) {
-    //     const attendList = document.getElementById('attendList');
-    //     const absentList = document.getElementById('absentList');
-    //     const nameToRemove = this.truncateName(userName);
-    //     if(att){
-    //         this.currAbsentList = this.currAbsentList.filter(name => name !== userName);
-    //         const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')]
-    //             .find(li => li.textContent.trim() === nameToRemove);
-    //         if (listItemToRemove) {
-    //             listItemToRemove.remove();
-    //         }
-    //         const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')]
-    //             .find(li => li.textContent.trim() === nameToRemove);
-    //         if (ItemToRemove) {
-    //             ItemToRemove.remove();
-    //         }
-    
-    //         const listItem = document.createElement('li');
-    //         listItem.textContent = this.truncateName(userName);
-    //         listItem.setAttribute('data-name', userName);
-    //         listItem.classList.add('list-group-item');
-    //         attendList.appendChild(listItem);
-    //         this.currAttendList.push(userName);
-    //     } else {
-    //         this.currAttendList = this.currAttendList.filter(name => name !== userName);
-    //         const ItemToRemove = [...attendList.querySelectorAll('li.list-group-item')]
-    //             .find(li => li.textContent.trim() === nameToRemove);
-    //         if (ItemToRemove) {
-    //             ItemToRemove.remove();
-    //         }
-    //         const listItemToRemove = [...absentList.querySelectorAll('li.list-group-item')]
-    //             .find(li => li.textContent.trim() === nameToRemove);
-    //         if (listItemToRemove) {
-    //             listItemToRemove.remove();
-    //         }
-    
-    //         const listItem = document.createElement('li');
-    //         listItem.textContent = this.truncateName(userName);
-    //         listItem.setAttribute('data-name', userName);
-    //         listItem.classList.add('list-group-item');
-    //         absentList.appendChild(listItem);
-    //         this.currAbsentList.push(userName);
-    //     }
-    // }
-
-    // function toggleCheckBoxTexts() {
-    //     // 체크박스 텍스트 변경 로직
-    //     const presentText = document.getElementById('Present-text');
-    //     const absentText = document.getElementById('NotPresent-text');
-    //     if (saveActual) {
-    //         presentText.textContent = "Will Present";
-    //         presentText.style.paddingLeft = "13.465px";
-    //         presentText.style.paddingRight = "13.465px";
-    //         absentText.textContent = "Will Not Present";
-    //         setSaveActual(false);
-    //     } else {
-    //         presentText.textContent = "Was Present";
-    //         absentText.textContent = "Was Not Present";
-    //         presentText.style.paddingLeft = "15.76px";
-    //         presentText.style.paddingRight = "15.76px";
-    //         setSaveActual(true);
-    //     }
-        
-    // } 
 
     function updateAttendancesLocal(newAttendance) {
         let attendances = [];
@@ -567,7 +311,6 @@ export function AttdCol(props) {
             </ol>
           </div>
         </div>
-    
         <br />
     
         <div className="buttons">
@@ -579,7 +322,6 @@ export function AttdCol(props) {
             disabled={saveActualDisabled}>Save Actual Attendance Records</Button>
           <Button type="button" className="btn btn-primary" variant="primary" id="endButton" onClick={endVoting} disabled={endVotingDisabled}>End Voting</Button>
         </div>
-    
         <br />
       </div>
     );

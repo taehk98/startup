@@ -19,6 +19,7 @@ export function Authenticated(props) {
         localStorage.removeItem('userName');
         localStorage.removeItem('clubName');
         localStorage.removeItem('userEmail');
+        localStorage.removeItem('attendances');
         props.onLogout();
       });
   }

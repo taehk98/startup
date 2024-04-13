@@ -41,7 +41,7 @@ table {
     margin: 0 auto; 
 }
   
-th, td {
+.reportTable th, .reportTable td {
     border: 1px solid black !important; /* 테두리에 선을 추가합니다. */
     padding-left: 0.5em;
     padding-right: 0.5em;

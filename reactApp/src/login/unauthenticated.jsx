@@ -6,8 +6,8 @@ import {MessageDialog} from './messageDialog';
 export function Unauthenticated(props) {
   const [userName, setUserName] = React.useState(props.userName);
   const [password, setPassword] = React.useState('');
-  const [userEmail, setEmail] = React.useState(props.userEmail);
-  const [clubName, setClub] = React.useState(props.clubName);
+  const [userEmail, setUserEmail] = React.useState(props.userEmail);
+  const [clubName, setClubName] = React.useState(props.clubName);
   const [displayError, setDisplayError] = React.useState(null);
 
   async function loginUser() {
@@ -30,10 +30,12 @@ export function Unauthenticated(props) {
       },
     });
     if (response?.status === 200) {
-      localStorage.setItem('userName', userName);
-      localStorage.setItem('clubName', clubName);
-      localStorage.setItem('userEmail', userEmail);
-      props.onLogin(userName);
+        const user = await response.json();
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('clubName', user.club);
+        localStorage.setItem('userEmail', userEmail);
+        window.dispatchEvent(new Event('storage'));
+        props.onLogin(userEmail);
     } else {
       const body = await response.json();
       setDisplayError(`⚠ Error: ${body.msg}`);
@@ -48,7 +50,7 @@ export function Unauthenticated(props) {
             className='form-control'
             type='text'
             value={userEmail}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUserEmail(e.target.value)}
             placeholder='Enter your@email.com'
           />
         </div>
@@ -72,7 +74,7 @@ export function Unauthenticated(props) {
           <input
             className='form-control'
             type='text'
-            onChange={(e) => setClub(e.target.value)}
+            onChange={(e) => setClubName(e.target.value)}
             placeholder='Enter Your Club Code Only For Sign Up'
           />
         </div>

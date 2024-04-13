@@ -120,7 +120,7 @@ export function Report({ userEmail }) {
                     People who voted for present but did not actually attended
                 </div>
                 <div className="table-container">
-                    <table id="fakeAttTb">
+                    <table id="fakeAttTb" className="reportTable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -149,7 +149,7 @@ export function Report({ userEmail }) {
                     Attendance rate for each member
                 </div>
                 <div className="table-container">
-                    <table id = "attRateTb" className="scrollable-list">
+                    <table id = "attRateTb" className="scrollable-list reportTable">
                         <thead>
                             <tr>
                                 <th>#</th>

@@ -11,7 +11,7 @@ export function Login({ userName, clubName, userEmail, authState, onAuthChange }
         <img className="logoimage" src="/logo_transparent.png" alt="logo" width="260px" height="260px"></img>
         {authState !== AuthState.Unknown}
         {authState === AuthState.Authenticated && (
-          <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+          <Authenticated userName={userName} onLogout={() => onAuthChange(userEmail, AuthState.Unauthenticated)} />
         )}
         {authState === AuthState.Unauthenticated && (
           <Unauthenticated
