@@ -107,7 +107,7 @@ I added backend endpoints for getting and updating attendances.
 ## React deliverable
 
 
-- **Bundled and transpiled** - 
-- **Components** - 
-- **Router** - 
+- **Bundled and transpiled** - done!
+- **Components** - Login, Report, matches, vote are all components.
+- **Router** -  Routing between login and other components.
 - **Hooks** - 
