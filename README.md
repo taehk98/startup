@@ -110,4 +110,4 @@ I added backend endpoints for getting and updating attendances.
 - **Bundled and transpiled** - done!
 - **Components** - Login, Report, matches, vote are all components.
 - **Router** -  Routing between login and other components.
-- **Hooks** - 
+- **Hooks** - Every component has state and useEffect.
